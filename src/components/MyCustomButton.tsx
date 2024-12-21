@@ -15,10 +15,9 @@ export function CustomButton({
   return (
     <Button
       variant="contained"
-      color={type == "navigate" ? "success" : "error"}
       sx={{
         width: size,
-        backgroundColor: "#86A788",
+        backgroundColor: type == "navigate" ? "#86A788" : "red",
       }}
       onClick={action}
     >
