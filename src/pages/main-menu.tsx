@@ -1,10 +1,15 @@
 import React from "react";
 import Header from "../components/Header";
 import { Box, Button, Grid2, Stack } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { CustomButton } from "../components/MyCustomButton";
 
 export const Main: React.FC = () => {
+  let nav = useNavigate();
+  function navigate() {
+    nav("/dashboard");
+  }
   return (
     <div>
       <Header />
@@ -20,12 +25,12 @@ export const Main: React.FC = () => {
           },
         }}
       >
-        <Button
-          variant="contained"
-          sx={{ width: "400px", backgroundColor: "#86A788" }}
-        >
-          <Link to={"/dashboard"}>Start the application</Link>
-        </Button>
+        <CustomButton
+          action={navigate}
+          text="Start the Application"
+          size={400}
+          type="navigate"
+        />
       </Stack>
     </div>
   );
