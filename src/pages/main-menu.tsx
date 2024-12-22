@@ -1,8 +1,8 @@
 import React from "react";
 import Header from "../components/Header";
-import { Box, Button, Grid2, Stack } from "@mui/material";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Stack } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 import { CustomButton } from "../components/MyCustomButton";
 
 export const Main: React.FC = () => {
@@ -11,8 +11,8 @@ export const Main: React.FC = () => {
     nav("/dashboard");
   }
   return (
-    <div>
-      <Header />
+    <div className="main">
+     
       <Stack
         spacing={12}
         sx={{

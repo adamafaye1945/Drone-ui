@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
 }
-body {
+.main {
   background-image: url("https://i.gifer.com/7N1e.gif");
   background-size: cover;
   background-position: center;
@@ -10,6 +10,7 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
 html,
 body {
   margin: 0; /* Removes default margins */
@@ -17,4 +18,9 @@ body {
   width: 100%; /* Ensures full width */
   height: 100%; /* Ensures full height */
   overflow: hidden; /* Prevents scrolling if any content exceeds the viewport */
+}
+.custom-icon {
+  background: none; /* Remove any background */
+  border: none; /* Remove borders if applied */
+  border-radius: 50%; /* Optional: Make it circular */
 }

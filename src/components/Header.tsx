@@ -45,6 +45,7 @@ function Header() {
       sx={{
         backgroundColor: "#86A788",
         width: "100%",
+        zIndex: "1000",
       }}
     >
       <Container maxWidth={false}>

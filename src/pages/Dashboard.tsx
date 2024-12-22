@@ -1,10 +1,9 @@
-import Header from "../components/Header";
+import LeafletMap from "../components/map";
 
 export function DashBoard() {
   return (
     <>
-      <Header />
-      <p>here is the DashBoard</p>
+      <LeafletMap />
     </>
   );
 }
