@@ -1,9 +1,9 @@
 import { Divider, Stack } from "@mui/material";
 
-import { DroneInformation, data } from "./DroneInformation";
-import { Task } from "./task";
-import { ChargingStation } from "./chargingStation";
-import DroneFleetManagement from "./droneFleet";
+import { DroneInformation, data } from "../management/DroneInformation";
+import { Task } from "../management/task";
+import { ChargingStation } from "../management/chargingStation";
+import DroneFleetManagement from "../droneFleet/droneFleet";
 
 const FAKE_DRONE: data = {
   info: {

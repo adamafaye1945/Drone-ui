@@ -1,6 +1,6 @@
 import { Grid2 } from "@mui/material";
-import LeafletMap from "../components/map";
-import { Management } from "../components/management";
+import LeafletMap from "../components/dashboard/map";
+import { Management } from "../components/dashboard/management";
 
 export function DashBoard() {
   return (

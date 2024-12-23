@@ -1,17 +1,11 @@
 import { Button } from "@mui/material";
-
-interface Button {
-  text: string;
-  type: "stop" | "navigate";
-  size: number;
-  action?: () => void;
-}
+import { ButtonInterface } from "../types/droneTypes";
 export function CustomButton({
   text,
   type,
   size,
   action,
-}: Button): JSX.Element {
+}: ButtonInterface): JSX.Element {
   return (
     <Button
       variant="contained"

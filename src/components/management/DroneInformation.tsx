@@ -1,22 +1,7 @@
 import { Grid2, Typography } from "@mui/material";
+import { data } from "../../types/droneTypes";
 
-export interface data {
-  info: Info;
-}
-export interface Info {
-  image: string;
-  model: string;
-  task: Task;
-  altitude?: number;
-  position: [number, number];
-  currentAction: "patrol" | "transport" | "charging";
-}
-export interface Task {
-  from: [number, number];
-  to: [number, number];
-  description: string;
-  state: "in-progress" | "completed";
-}
+
 export function DroneInformation({ info }: data) {
   const { model, altitude, position, currentAction, image } = info;
   return (

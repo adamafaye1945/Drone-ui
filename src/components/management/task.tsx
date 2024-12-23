@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { CustomButton } from "./MyCustomButton";
+import { CustomButton } from "../MyCustomButton";
 import { Collapse, Typography } from "@mui/material";
 
 export function Task() {
-  const [showTasks, setShowTasks] = useState(true);
+  const [showTasks, setShowTasks] = useState(false);
   return (
     <div>
       <CustomButton

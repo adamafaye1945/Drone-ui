@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { CustomButton } from "./MyCustomButton";
+import { CustomButton } from "../MyCustomButton";
 import { Collapse, Typography } from "@mui/material";
 import EvStationIcon from "@mui/icons-material/EvStation";
 
 export function ChargingStation() {
-  const [showStations, setShowStations] = useState(true);
+  const [showStations, setShowStations] = useState(false);
   return (
     <div>
       <CustomButton
