@@ -6,6 +6,13 @@ const columns: GridColDef[] = [
   { field: "size", headerName: "Size", width: 130, type: "string" },
   { field: "charge", headerName: "Charge", width: 130, type: "number" },
   {
+    field: "capacity",
+    headerName: "Lift Capicity in lbs",
+    width: 130,
+    type: "number",
+  },
+
+  {
     field: "availability",
     headerName: "Availability",
     type: "string",
@@ -15,7 +22,6 @@ const columns: GridColDef[] = [
   {
     field: "fullName",
     headerName: "Current Task",
-    // description: "This column has a value getter and is not sortable.",
     sortable: false,
     width: 700,
   },
@@ -29,6 +35,7 @@ const rows = [
     charge: "80",
     availability: "Available",
     fullName: "Delivering package to 123 Elm St.",
+    capacity: 20,
   },
   {
     id: 2,
@@ -37,6 +44,7 @@ const rows = [
     charge: "45",
     availability: "In Maintenance",
     fullName: "Patrolling Area B-12",
+    capacity: 20,
   },
   {
     id: 3,
@@ -45,6 +53,34 @@ const rows = [
     charge: "100",
     availability: "Available",
     fullName: "Idle",
+    capacity: 40,
+  },
+  {
+    id: 4,
+    model: "Drone-Z789",
+    size: "Small",
+    charge: "100",
+    availability: "Available",
+    fullName: "Idle",
+    capacity: 40,
+  },
+  {
+    id: 4,
+    model: "Drone-Z789",
+    size: "Small",
+    charge: "100",
+    availability: "Available",
+    fullName: "Idle",
+    capacity: 40,
+  },
+  {
+    id: 5,
+    model: "Drone-Z789",
+    size: "Small",
+    charge: "100",
+    availability: "Available",
+    fullName: "Idle",
+    capacity: 40,
   },
 ];
 

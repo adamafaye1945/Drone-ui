@@ -1,9 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { chargingStation, droneIcon } from "../../map/icon";
-interface Drones {
-  data : []
-}
+
 const LeafletMap = () => {
   const start: [number, number] = [40.71, -74];
   const charging: [number, number] = [40.61, -74];

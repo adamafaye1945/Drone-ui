@@ -4,8 +4,9 @@ export interface ButtonInterface {
   size: number;
   action?: () => void;
 }
-export interface data {
-  info: Info;
+
+export interface Allinfo {
+  infos: Info[];
 }
 export interface Info {
   image: string;

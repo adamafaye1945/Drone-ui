@@ -1,45 +1,80 @@
-import { Divider, Stack } from "@mui/material";
-
-import { DroneInformation, data } from "../management/DroneInformation";
-import { Task } from "../management/task";
-import { ChargingStation } from "../management/chargingStation";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Avatar,
+  ListItemButton,
+  Pagination,
+} from "@mui/material";
+import { Allinfo } from "../../types/droneTypes";
 import DroneFleetManagement from "../droneFleet/droneFleet";
+import { useState } from "react";
+export function Management({ infos }: Allinfo) {
+  const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  console.log(currentPageNumber);
+  // calculating number of element appearing in a page
 
-const FAKE_DRONE: data = {
-  info: {
-    task: {
-      from: [40, -75],
-      to: [40, -72],
-      description: "Sending Amazon package to a nearby house",
-      state: "in-progress",
-    },
-    image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
-    model: "seria12323",
-    altitude: 120,
-    position: [40, -75],
-    currentAction: "patrol",
-  },
-};
-
-export function Management() {
+  function pageChanged(event: React.ChangeEvent<unknown>, page: number) {
+    setCurrentPageNumber(page);
+  }
+  function paginate<T>(array: T[], page: number, itemsPerPage: number): T[] {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return array.slice(startIndex, endIndex);
+  }
+  const paginatedInfos = paginate(infos, currentPageNumber, 9);
   return (
-    <Stack
-      divider={<Divider orientation="horizontal" flexItem />}
-      spacing={4}
+    <Box
       sx={{
+        display: "flex",
+        flexDirection: "column",
         height: "100vh",
         backgroundColor: "#1e1e1e",
         color: "white",
-        padding: "16px",
         overflowY: "auto",
+        padding: "16px",
       }}
     >
-      <DroneInformation info={FAKE_DRONE.info} />
-
-      <Task />
-
-      <ChargingStation />
       <DroneFleetManagement />
-    </Stack>
+
+      <List sx={{ width: "100%" }}>
+        {paginatedInfos.map((info, index) => (
+          <ListItemButton>
+            <ListItem key={index} sx={{ borderBottom: "1px solid #333" }}>
+              <ListItemAvatar>
+                <Avatar src="src/assets/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTA0Ni1wLnBuZw.webp"></Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                sx={{ color: "white" }}
+                primary={info.model}
+                secondary={info.currentAction}
+              />
+            </ListItem>
+          </ListItemButton>
+        ))}
+        <Pagination
+          onChange={pageChanged}
+          page={currentPageNumber}
+          count={Math.ceil(infos.length / 9)}
+          size="large"
+          variant="outlined"
+          sx={{
+            position: "fixed",
+            bottom: "0",
+            marginBottom: "10px",
+            "& .MuiPaginationItem-root": {
+              color: "#86A788", // Default text color
+              borderColor: "#86A788", // Border color for outlined variant
+            },
+            "& .MuiPaginationItem-root.Mui-selected": {
+              backgroundColor: "#86A788",
+              color: "white",
+            },
+          }}
+        />
+      </List>
+    </Box>
   );
 }
