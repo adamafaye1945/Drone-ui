@@ -1,8 +1,11 @@
+import { ReactNode } from "react";
+
 export interface ButtonInterface {
   text: string;
   type: "stop" | "navigate";
   size: number;
   action?: () => void;
+  children?: ReactNode;
 }
 
 export interface Allinfo {

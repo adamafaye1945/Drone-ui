@@ -1,20 +1,23 @@
 import {
   Collapse,
   Grid2,
+  InputAdornment,
   Stack,
   TextField,
   ThemeProvider,
   createTheme,
 } from "@mui/material";
-import { CustomButton } from "../MyCustomButton";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import CustomizedRadios, { CustomButton } from "../MyCustomButton";
 import { useState } from "react";
 const theme = createTheme({
   components: {
     MuiTextField: {
       styleOverrides: {
         root: {
-            "& .MuiInputBase-input": {
-                color: "white",},
+          "& .MuiInputBase-input": {
+            color: "white",
+          },
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
               borderColor: "#86A788", // Default border color
@@ -51,29 +54,43 @@ export function TaskCreation() {
         <Stack spacing={3}>
           <TextField
             id="outlined-basic"
-            label="Current Position of the Drone"
+            label="Position of the Drone(lat, long)"
             variant="outlined"
+            sx={{ width: "100%" }}
           />
           <TextField
             id="outlined-basic"
             label="Where to (long, lat
                 )"
             variant="outlined"
+            sx={{ width: "100%" }}
           />
-
           <TextField
             id="outlined-basic"
-            label="Task decription"
+            label="Set a cruise altitude"
+            slotProps={{
+              input: {
+                startAdornment: (
+                  <InputAdornment position="start">FT</InputAdornment>
+                ),
+              },
+            }}
             variant="outlined"
+            size="medium"
+            sx={{ width: "100%" }}
           />
+
+          <CustomizedRadios />
         </Stack>
         <div style={{ marginTop: "10px" }}>
           <CustomButton
-            text={"Confirm"}
+            text={"Launch"}
             type={"navigate"}
             action={() => null}
             size={200}
-          />
+          >
+            <FlightTakeoffIcon sx={{ padding: "10px" }}></FlightTakeoffIcon>
+          </CustomButton>
         </div>
       </Collapse>
     </ThemeProvider>

@@ -51,7 +51,7 @@ export function Management({ infos }: Allinfo) {
       <Stack
         direction={"row"}
         spacing={40}
-        justifyContent="space-be"
+        justifyContent="space-around"
         alignItems="center"
         sx={{ width: "100%" }}
       >
@@ -61,7 +61,7 @@ export function Management({ infos }: Allinfo) {
       {currentDisplayedDrone ? (
         <Stack spacing={3}>
           <DroneInformation info={currentDisplayedDrone} />
-          <Grid2 container spacing={3} justifyContent="space-around">
+          <Grid2 container spacing={3} justifyContent="space-between">
             <Grid2>
               <Task />
             </Grid2>
@@ -72,7 +72,7 @@ export function Management({ infos }: Allinfo) {
               <TaskCreation />
             </Grid2>
             <Grid2>
-              <Task />
+              <ChargingStation />
             </Grid2>
           </Grid2>
         </Stack>
@@ -96,26 +96,28 @@ export function Management({ infos }: Allinfo) {
           ))}
         </List>
       )}
-      <Pagination
-        onChange={pageChanged}
-        page={currentPageNumber}
-        count={Math.ceil(infos.length / 9)}
-        size="large"
-        variant="outlined"
-        sx={{
-          position: "fixed",
-          bottom: "0",
-          marginBottom: "10px",
-          "& .MuiPaginationItem-root": {
-            color: "#86A788",
-            borderColor: "#86A788",
-          },
-          "& .MuiPaginationItem-root.Mui-selected": {
-            backgroundColor: "#86A788",
-            color: "white",
-          },
-        }}
-      />
+      {!currentDisplayedDrone && (
+        <Pagination
+          onChange={pageChanged}
+          page={currentPageNumber}
+          count={Math.ceil(infos.length / 9)}
+          size="large"
+          variant="outlined"
+          sx={{
+            position: "fixed",
+            bottom: "0",
+            marginBottom: "10px",
+            "& .MuiPaginationItem-root": {
+              color: "#86A788",
+              borderColor: "#86A788",
+            },
+            "& .MuiPaginationItem-root.Mui-selected": {
+              backgroundColor: "#86A788",
+              color: "white",
+            },
+          }}
+        />
+      )}
     </Box>
   );
 }
