@@ -1,17 +1,12 @@
 import { Button } from "@mui/material";
-
-interface Button {
-  text: string;
-  type: "stop" | "navigate";
-  size: number;
-  action?: () => void;
-}
+import { ButtonInterface } from "../types/droneTypes";
+import { useState } from "react";
 export function CustomButton({
   text,
   type,
   size,
   action,
-}: Button): JSX.Element {
+}: ButtonInterface): JSX.Element {
   return (
     <Button
       variant="contained"
@@ -25,3 +20,28 @@ export function CustomButton({
     </Button>
   );
 }
+interface closeProps {
+  onClose: () => void;
+}
+export const CloseButton = ({ onClose }: closeProps) => {
+  return (
+    <button
+      style={{
+        background: "none",
+        border: "1px solid #ccc",
+        fontSize: "16px",
+        fontWeight: "bold",
+        padding: "4px 8px",
+        borderRadius: "5px",
+        cursor: "pointer",
+        display: "inline-block",
+        color: "#86A788",
+        
+      }}
+      onClick={onClose}
+      aria-label="Close"
+    >
+      &times;
+    </button>
+  );
+};

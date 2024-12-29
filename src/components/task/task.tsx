@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { CustomButton } from "./MyCustomButton";
+import { CustomButton } from "../MyCustomButton";
 import { Collapse, Typography } from "@mui/material";
 
 export function Task() {
-  const [showTasks, setShowTasks] = useState(true);
+  const [showTasks, setShowTasks] = useState(false);
   return (
     <div>
       <CustomButton
@@ -14,7 +14,7 @@ export function Task() {
       />
 
       <Collapse in={showTasks}>
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginTop: "10px" }}>
           <Typography variant="body1">Task: Deliver Amazon Package</Typography>
           <Typography variant="body2">From: 40, -75</Typography>
           <Typography variant="body2">To: 40, -72</Typography>

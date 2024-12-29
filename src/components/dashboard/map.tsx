@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { chargingStation, droneIcon } from "../map/icon";
+import { chargingStation, droneIcon } from "../../map/icon";
 
 const LeafletMap = () => {
   const start: [number, number] = [40.71, -74];

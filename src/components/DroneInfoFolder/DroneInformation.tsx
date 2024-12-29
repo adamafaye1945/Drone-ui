@@ -1,31 +1,17 @@
 import { Grid2, Typography } from "@mui/material";
-
-export interface data {
+import { Info } from "../../types/droneTypes";
+interface InfoProps {
   info: Info;
 }
-export interface Info {
-  image: string;
-  model: string;
-  task: Task;
-  altitude?: number;
-  position: [number, number];
-  currentAction: "patrol" | "transport" | "charging";
-}
-export interface Task {
-  from: [number, number];
-  to: [number, number];
-  description: string;
-  state: "in-progress" | "completed";
-}
-export function DroneInformation({ info }: data) {
+export function DroneInformation({ info }: InfoProps) {
   const { model, altitude, position, currentAction, image } = info;
   return (
-    <Grid2 container spacing={10}>
+    <Grid2 container spacing={4} alignItems="center">
       <Grid2>
         <div>
-          <Typography variant="h6" sx={{ marginBottom: "8px" }}>
+          {/* <Typography variant="h6" sx={{ marginBottom: "8px" }}>
             Drone Information
-          </Typography>
+          </Typography> */}
           <Typography variant="body1">Model: {model}</Typography>
           <Typography variant="body1">Altitude: {altitude}ft</Typography>
           <Typography variant="body1">
