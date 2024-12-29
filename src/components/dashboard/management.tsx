@@ -8,14 +8,16 @@ import {
   ListItemButton,
   Pagination,
   Stack,
+  Grid2,
 } from "@mui/material";
 import { Allinfo, Info } from "../../types/droneTypes";
 import DroneFleetManagement from "../droneFleet/droneFleet";
 import { useState } from "react";
 import { DroneInformation } from "../DroneInfoFolder/DroneInformation";
-import { Task } from "../DroneInfoFolder/task";
+import { Task } from "../task/task";
 import { ChargingStation } from "../DroneInfoFolder/chargingStation";
 import { CloseButton } from "../MyCustomButton";
+import { TaskCreation } from "../task/createTask";
 export function Management({ infos }: Allinfo) {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [currentDisplayedDrone, setCurrentDisplayedDrone] = useState<Info>();
@@ -49,7 +51,7 @@ export function Management({ infos }: Allinfo) {
       <Stack
         direction={"row"}
         spacing={40}
-        justifyContent="space-between"
+        justifyContent="space-be"
         alignItems="center"
         sx={{ width: "100%" }}
       >
@@ -59,10 +61,20 @@ export function Management({ infos }: Allinfo) {
       {currentDisplayedDrone ? (
         <Stack spacing={3}>
           <DroneInformation info={currentDisplayedDrone} />
-          <Stack direction={"row"} spacing={3}>
-            <Task />
-            <ChargingStation />
-          </Stack>
+          <Grid2 container spacing={3} justifyContent="space-around">
+            <Grid2>
+              <Task />
+            </Grid2>
+            <Grid2>
+              <ChargingStation />
+            </Grid2>
+            <Grid2>
+              <TaskCreation />
+            </Grid2>
+            <Grid2>
+              <Task />
+            </Grid2>
+          </Grid2>
         </Stack>
       ) : (
         <List sx={{ width: "100%" }}>
