@@ -7,16 +7,25 @@ import {
   Avatar,
   ListItemButton,
   Pagination,
+  Stack,
 } from "@mui/material";
-import { Allinfo } from "../../types/droneTypes";
+import { Allinfo, Info } from "../../types/droneTypes";
 import DroneFleetManagement from "../droneFleet/droneFleet";
 import { useState } from "react";
+import { DroneInformation } from "../DroneInfoFolder/DroneInformation";
+import { Task } from "../DroneInfoFolder/task";
+import { ChargingStation } from "../DroneInfoFolder/chargingStation";
+import { CloseButton } from "../MyCustomButton";
 export function Management({ infos }: Allinfo) {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [currentDisplayedDrone, setCurrentDisplayedDrone] = useState<Info>();
   console.log(currentPageNumber);
   // calculating number of element appearing in a page
 
-  function pageChanged(event: React.ChangeEvent<unknown>, page: number) {
+  function CloseButtonclicked() {
+    setCurrentDisplayedDrone(undefined);
+  }
+  function pageChanged(_: React.ChangeEvent<unknown>, page: number) {
     setCurrentPageNumber(page);
   }
   function paginate<T>(array: T[], page: number, itemsPerPage: number): T[] {
@@ -37,44 +46,64 @@ export function Management({ infos }: Allinfo) {
         padding: "16px",
       }}
     >
-      <DroneFleetManagement />
-
-      <List sx={{ width: "100%" }}>
-        {paginatedInfos.map((info, index) => (
-          <ListItemButton>
-            <ListItem key={index} sx={{ borderBottom: "1px solid #333" }}>
-              <ListItemAvatar>
-                <Avatar src="src/assets/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTA0Ni1wLnBuZw.webp"></Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                sx={{ color: "white" }}
-                primary={info.model}
-                secondary={info.currentAction}
-              />
-            </ListItem>
-          </ListItemButton>
-        ))}
-        <Pagination
-          onChange={pageChanged}
-          page={currentPageNumber}
-          count={Math.ceil(infos.length / 9)}
-          size="large"
-          variant="outlined"
-          sx={{
-            position: "fixed",
-            bottom: "0",
-            marginBottom: "10px",
-            "& .MuiPaginationItem-root": {
-              color: "#86A788", // Default text color
-              borderColor: "#86A788", // Border color for outlined variant
-            },
-            "& .MuiPaginationItem-root.Mui-selected": {
-              backgroundColor: "#86A788",
-              color: "white",
-            },
-          }}
-        />
-      </List>
+      <Stack
+        direction={"row"}
+        spacing={40}
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ width: "100%" }}
+      >
+        <DroneFleetManagement />{" "}
+        {currentDisplayedDrone && <CloseButton onClose={CloseButtonclicked} />}
+      </Stack>
+      {currentDisplayedDrone ? (
+        <Stack spacing={3}>
+          <DroneInformation info={currentDisplayedDrone} />
+          <Stack direction={"row"} spacing={3}>
+            <Task />
+            <ChargingStation />
+          </Stack>
+        </Stack>
+      ) : (
+        <List sx={{ width: "100%" }}>
+          {paginatedInfos.map((info, index) => (
+            <ListItemButton
+              onClick={() => setCurrentDisplayedDrone(infos[index])}
+            >
+              <ListItem key={index} sx={{ borderBottom: "1px solid #333" }}>
+                <ListItemAvatar>
+                  <Avatar src="src/assets/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTA0Ni1wLnBuZw.webp"></Avatar>
+                </ListItemAvatar>
+                <ListItemText
+                  sx={{ color: "white" }}
+                  primary={info.model}
+                  secondary={info.currentAction}
+                />
+              </ListItem>
+            </ListItemButton>
+          ))}
+        </List>
+      )}
+      <Pagination
+        onChange={pageChanged}
+        page={currentPageNumber}
+        count={Math.ceil(infos.length / 9)}
+        size="large"
+        variant="outlined"
+        sx={{
+          position: "fixed",
+          bottom: "0",
+          marginBottom: "10px",
+          "& .MuiPaginationItem-root": {
+            color: "#86A788",
+            borderColor: "#86A788",
+          },
+          "& .MuiPaginationItem-root.Mui-selected": {
+            backgroundColor: "#86A788",
+            color: "white",
+          },
+        }}
+      />
     </Box>
   );
 }

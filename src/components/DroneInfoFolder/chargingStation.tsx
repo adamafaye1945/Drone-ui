@@ -13,7 +13,7 @@ export function ChargingStation() {
         }
         type={showStations ? "stop" : "navigate"}
         action={() => setShowStations(!showStations)}
-        size={200}
+        size={300}
       />
 
       <Collapse in={showStations}>
