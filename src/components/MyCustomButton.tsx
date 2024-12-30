@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { ButtonInterface } from "../types/droneTypes";
+import { ButtonInterface, DroneInformation } from "../types/droneTypes";
 import { styled } from "@mui/material/styles";
 import Radio, { RadioProps } from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -137,9 +137,9 @@ export default function CustomizedRadios() {
       >
         <FormControlLabel value="female" control={<BpRadio />} label="patrol" />
         <FormControlLabel
-          value="transport"
+          value="transportation"
           control={<BpRadio />}
-          label="transportation"
+          label="deliver load"
         />
         <FormControlLabel
           value="charging"
