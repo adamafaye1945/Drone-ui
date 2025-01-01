@@ -9,6 +9,7 @@ export interface ButtonInterface {
 }
 
 export interface DroneInformation {
+  charge: number;
   id: string;
   image: string;
   size: "small" | "medium" | "large";
@@ -17,16 +18,17 @@ export interface DroneInformation {
 }
 export interface DeployedDroneInformation {
   information: DroneInformation;
-  task: Task;
+  task: TaskObj;
   altitude?: number;
   position: [number, number];
   currentAction: "patrol" | "transport" | "charging";
 }
 export interface GroundedDroneInformation {
   information: DroneInformation;
-  availabilty: "Available" | "In maintenance" | "Non-operational";
+  availability: "Available" | "In maintenance" | "Non-operational";
 }
-export interface Task {
+
+export interface TaskObj{
   from: [number, number];
   to: [number, number];
   description: string;

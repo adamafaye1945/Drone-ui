@@ -1,7 +1,6 @@
 import { Grid2, Typography } from "@mui/material";
 import {
   DeployedDroneInformation,
-  DroneInformation,
 } from "../../types/droneTypes";
 interface InfoProps {
   info: DeployedDroneInformation;
