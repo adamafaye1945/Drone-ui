@@ -10,17 +10,21 @@ import {
   Stack,
   Grid2,
 } from "@mui/material";
-import { Allinfo, Info } from "../../types/droneTypes";
+import { DeployedDroneInformation } from "../../types/droneTypes";
 import DroneFleetManagement from "../droneFleet/droneFleet";
 import { useState } from "react";
-import { DroneInformation } from "../DroneInfoFolder/DroneInformation";
 import { Task } from "../task/task";
 import { ChargingStation } from "../DroneInfoFolder/chargingStation";
 import { CloseButton } from "../MyCustomButton";
 import { TaskCreation } from "../task/createTask";
-export function Management({ infos }: Allinfo) {
+import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
+interface DeployedDroneProps {
+  infos: DeployedDroneInformation[];
+}
+export function Management({ infos }: DeployedDroneProps) {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [currentDisplayedDrone, setCurrentDisplayedDrone] = useState<Info>();
+  const [currentDisplayedDrone, setCurrentDisplayedDrone] =
+    useState<DeployedDroneInformation>();
   console.log(currentPageNumber);
   // calculating number of element appearing in a page
 
@@ -60,7 +64,7 @@ export function Management({ infos }: Allinfo) {
       </Stack>
       {currentDisplayedDrone ? (
         <Stack spacing={3}>
-          <DroneInformation info={currentDisplayedDrone} />
+          <DroneInformationComponent info={currentDisplayedDrone} />
           <Grid2 container spacing={3} justifyContent="space-between">
             <Grid2>
               <Task />
@@ -88,7 +92,7 @@ export function Management({ infos }: Allinfo) {
                 </ListItemAvatar>
                 <ListItemText
                   sx={{ color: "white" }}
-                  primary={info.model}
+                  primary={info.information.model}
                   secondary={info.currentAction}
                 />
               </ListItem>

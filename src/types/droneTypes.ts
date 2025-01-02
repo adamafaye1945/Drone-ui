@@ -8,20 +8,30 @@ export interface ButtonInterface {
   children?: ReactNode;
 }
 
-export interface Allinfo {
-  infos: Info[];
-}
-export interface Info {
+export interface DroneInformation {
+  charge: number;
+  id: string;
   image: string;
+  size: "small" | "medium" | "large";
   model: string;
-  task: Task;
-  altitude?: number;
-  position: [number, number];
-  currentAction: "patrol" | "transport" | "charging";
+  carrying?: null | number;
 }
-export interface Task {
-  from: [number, number];
-  to: [number, number];
+export interface DeployedDroneInformation {
+  information: DroneInformation;
+  task: TaskObj;
+  altitude?: number;
+  position: number[];
+  currentAction: "patrol" | "transport" | "charging" | "standby";
+}
+export interface GroundedDroneInformation {
+  information: DroneInformation;
+  availability: "Available" | "In maintenance" | "Non-operational";
+}
+
+export interface TaskObj {
+  from: number[];
+  to: number[];
   description: string;
   state: "in-progress" | "completed";
 }
+

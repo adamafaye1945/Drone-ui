@@ -115,8 +115,17 @@ function BpRadio(props: RadioProps) {
     />
   );
 }
-
-export default function CustomizedRadios() {
+interface CustomizedRadiosProps {
+  taskValue: "patrol" | "transport" | "charging";
+  setTaskValue: React.Dispatch<
+    React.SetStateAction<"patrol" | "transport" | "charging">
+  >;
+}
+export default function CustomizedRadios({
+  taskValue,
+  setTaskValue,
+}: CustomizedRadiosProps) {
+  console.log(taskValue);
   return (
     <FormControl>
       <FormLabel
@@ -134,12 +143,19 @@ export default function CustomizedRadios() {
         defaultValue="patrol"
         aria-labelledby="demo-customized-radios"
         name="customized-radios"
+        value={taskValue}
+        onChange={(e) =>
+          setTaskValue(
+            e.target.value as "patrol" | "transport" | "charging"
+          )
+        }
       >
-        <FormControlLabel value="female" control={<BpRadio />} label="patrol" />
+        <FormControlLabel value="patrol" control={<BpRadio />} label="patrol" />
+
         <FormControlLabel
           value="transport"
           control={<BpRadio />}
-          label="transportation"
+          label="deliver load"
         />
         <FormControlLabel
           value="charging"

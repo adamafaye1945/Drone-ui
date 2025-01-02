@@ -1,6 +1,5 @@
 import {
   Collapse,
-  Grid2,
   InputAdornment,
   Stack,
   TextField,
@@ -10,6 +9,10 @@ import {
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import CustomizedRadios, { CustomButton } from "../MyCustomButton";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { TaskObj } from "../../types/droneTypes";
+import { TaskChanged, TaskChanging } from "../../redux/slice/droneSlice";
+import { useSelector } from "react-redux";
 const theme = createTheme({
   components: {
     MuiTextField: {
@@ -42,6 +45,55 @@ const theme = createTheme({
 });
 export function TaskCreation() {
   const [showForm, setShowForm] = useState(false);
+  const [position, setPosition] = useState("");
+  const [altitude, setAltitude] = useState("");
+  const [destination, setDestination] = useState("");
+  const [taskSelection, setTaskSelection] = useState<
+    "patrol" | "transport" | "charging" 
+  >("transport");
+  const dispatch = useDispatch();
+  const DroneState = useSelector((state) => state);
+  function areAllNumbers(arr: string[]): boolean {
+    return arr.every((item) => {
+      const num = Number(item); // Explicit conversion to number
+      return !isNaN(num) && item.trim() !== ""; // Ensure it's a valid number and not empty
+    });
+  }
+  function convertBackToNumberArray(item: string[]) {
+    return item.map((ele) => {
+      return Number(ele);
+    });
+  }
+  function submitForm() {
+    // position handling
+    const positionState = position.split(",");
+    const destinationState = destination.split(",");
+
+    if (areAllNumbers(positionState) && areAllNumbers(destinationState)) {
+      const finalStatePos = convertBackToNumberArray(positionState);
+      const finalStateDestinationState =
+        convertBackToNumberArray(destinationState);
+
+      const task: TaskObj = {
+        to: finalStateDestinationState,
+        from: finalStatePos,
+        description: "nothing for this yet",
+        state: "in-progress",
+      };
+      const payload: TaskChanging = {
+        task,
+        id: "1234",
+        altitude: Number(altitude),
+        currentAction: taskSelection,
+      };
+      dispatch(TaskChanged(payload));
+      return;
+    }
+    console.log("error entering information make sure you enter number");
+    // handling where to
+  }
+  console.log(DroneState);
+
   return (
     <ThemeProvider theme={theme}>
       <CustomButton
@@ -53,12 +105,15 @@ export function TaskCreation() {
       <Collapse in={showForm} sx={{ marginTop: "10px" }}>
         <Stack spacing={3}>
           <TextField
+            value={position}
+            onChange={(e) => setPosition(e.target.value)}
             id="outlined-basic"
             label="Position of the Drone(lat, long)"
             variant="outlined"
             sx={{ width: "100%" }}
           />
           <TextField
+            onChange={(e) => setDestination(e.target.value)}
             id="outlined-basic"
             label="Where to (long, lat
                 )"
@@ -66,6 +121,8 @@ export function TaskCreation() {
             sx={{ width: "100%" }}
           />
           <TextField
+            value={altitude}
+            onChange={(e) => setAltitude(e.target.value)}
             id="outlined-basic"
             label="Set a cruise altitude"
             slotProps={{
@@ -80,13 +137,16 @@ export function TaskCreation() {
             sx={{ width: "100%" }}
           />
 
-          <CustomizedRadios />
+          <CustomizedRadios
+            taskValue={taskSelection}
+            setTaskValue={setTaskSelection}
+          />
         </Stack>
         <div style={{ marginTop: "10px" }}>
           <CustomButton
             text={"Launch"}
             type={"navigate"}
-            action={() => null}
+            action={submitForm}
             size={200}
           >
             <FlightTakeoffIcon sx={{ padding: "10px" }}></FlightTakeoffIcon>
