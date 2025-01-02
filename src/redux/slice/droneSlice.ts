@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DeployedDroneInformation, TaskObj } from "../../types/droneTypes";
 
-interface TaskChanging {
+export interface TaskChanging {
   task: TaskObj;
   id: string;
 }
@@ -45,7 +45,6 @@ const DeployedDroneSlice = createSlice({
   },
 });
 
-// Export actions and reducer
 export const { addDrone, TaskChanged } = DeployedDroneSlice.actions;
 
 export default DeployedDroneSlice.reducer;
