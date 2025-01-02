@@ -1,6 +1,5 @@
 import {
   Collapse,
-  Grid2,
   InputAdornment,
   Stack,
   TextField,
@@ -9,7 +8,7 @@ import {
 } from "@mui/material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import CustomizedRadios, { CustomButton } from "../MyCustomButton";
-import React, { HtmlHTMLAttributes, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { TaskObj } from "../../types/droneTypes";
 import { TaskChanged, TaskChanging } from "../../redux/slice/droneSlice";
@@ -49,7 +48,9 @@ export function TaskCreation() {
   const [position, setPosition] = useState("");
   const [altitude, setAltitude] = useState("");
   const [destination, setDestination] = useState("");
-  const [taskSelection, setTaskSelection] = useState("");
+  const [taskSelection, setTaskSelection] = useState<
+    "patrol" | "transport" | "charging" 
+  >("transport");
   const dispatch = useDispatch();
   const DroneState = useSelector((state) => state);
   function areAllNumbers(arr: string[]): boolean {
@@ -82,6 +83,8 @@ export function TaskCreation() {
       const payload: TaskChanging = {
         task,
         id: "1234",
+        altitude: Number(altitude),
+        currentAction: taskSelection,
       };
       dispatch(TaskChanged(payload));
       return;

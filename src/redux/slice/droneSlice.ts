@@ -4,7 +4,9 @@ import { DeployedDroneInformation, TaskObj } from "../../types/droneTypes";
 
 export interface TaskChanging {
   task: TaskObj;
+  altitude: number;
   id: string;
+  currentAction: "patrol" | "transport" | "charging" | "standby";
 }
 const initialState: DeployedDroneInformation[] = [
   {
@@ -24,7 +26,7 @@ const initialState: DeployedDroneInformation[] = [
 
     altitude: 120,
     position: [40, -75],
-    currentAction: "patrol",
+    currentAction: "standby",
   },
 ];
 
@@ -36,11 +38,17 @@ const DeployedDroneSlice = createSlice({
       state.push(action.payload);
     },
     TaskChanged: (state, action: PayloadAction<TaskChanging>) => {
-      const { id, task } = action.payload;
-      const droneIndex = state.findIndex((d) => d.information.id === id);
-      if (droneIndex !== -1) {
-        state[droneIndex].task = task;
-      }
+      const { id, task, altitude, currentAction } = action.payload;
+      return state.map((drone) =>
+        drone.information.id === id
+          ? {
+              ...drone,
+              task,
+              altitude,
+              currentAction,
+            }
+          : drone
+      );
     },
   },
 });

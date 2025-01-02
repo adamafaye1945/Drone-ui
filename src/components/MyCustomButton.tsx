@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { ButtonInterface, DroneInformation } from "../types/droneTypes";
+import { ButtonInterface } from "../types/droneTypes";
 import { styled } from "@mui/material/styles";
 import Radio, { RadioProps } from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -116,8 +116,10 @@ function BpRadio(props: RadioProps) {
   );
 }
 interface CustomizedRadiosProps {
-  taskValue: string;
-  setTaskValue: (e: string) => void;
+  taskValue: "patrol" | "transport" | "charging";
+  setTaskValue: React.Dispatch<
+    React.SetStateAction<"patrol" | "transport" | "charging">
+  >;
 }
 export default function CustomizedRadios({
   taskValue,
@@ -142,12 +144,16 @@ export default function CustomizedRadios({
         aria-labelledby="demo-customized-radios"
         name="customized-radios"
         value={taskValue}
-        onChange={(e) => setTaskValue(e.target.value)}
+        onChange={(e) =>
+          setTaskValue(
+            e.target.value as "patrol" | "transport" | "charging"
+          )
+        }
       >
         <FormControlLabel value="patrol" control={<BpRadio />} label="patrol" />
 
         <FormControlLabel
-          value="transportation"
+          value="transport"
           control={<BpRadio />}
           label="deliver load"
         />
