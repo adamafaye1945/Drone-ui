@@ -12,20 +12,33 @@ import {
 } from "@mui/material";
 import { DeployedDroneInformation } from "../../types/droneTypes";
 import DroneFleetManagement from "../droneFleet/droneFleet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Task } from "../task/task";
 import { ChargingStation } from "../DroneInfoFolder/chargingStation";
 import { CloseButton } from "../MyCustomButton";
 import { TaskCreation } from "../task/createTask";
 import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 interface DeployedDroneProps {
   infos: DeployedDroneInformation[];
 }
-export function Management({ infos }: DeployedDroneProps) {
+export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [currentDisplayedDrone, setCurrentDisplayedDrone] =
     useState<DeployedDroneInformation>();
-  console.log(currentPageNumber);
+
+  const drones = useSelector((state: RootState) => state.drone);
+  useEffect(() => {
+    if (currentDisplayedDrone) {
+      const updatedDrone = drones.find(
+        (drone) => drone.information.id === currentDisplayedDrone.information.id
+      );
+      if (updatedDrone) {
+        setCurrentDisplayedDrone(updatedDrone);
+      }
+    }
+  }, [drones]);
   // calculating number of element appearing in a page
 
   function CloseButtonclicked() {
@@ -39,7 +52,7 @@ export function Management({ infos }: DeployedDroneProps) {
     const endIndex = startIndex + itemsPerPage;
     return array.slice(startIndex, endIndex);
   }
-  const paginatedInfos = paginate(infos, currentPageNumber, 9);
+  const paginatedInfos = paginate(drones, currentPageNumber, 9);
   return (
     <Box
       sx={{
@@ -83,9 +96,7 @@ export function Management({ infos }: DeployedDroneProps) {
       ) : (
         <List sx={{ width: "100%" }}>
           {paginatedInfos.map((info, index) => (
-            <ListItemButton
-              onClick={() => setCurrentDisplayedDrone(infos[index])}
-            >
+            <ListItemButton onClick={() => setCurrentDisplayedDrone(info)}>
               <ListItem key={index} sx={{ borderBottom: "1px solid #333" }}>
                 <ListItemAvatar>
                   <Avatar src="src/assets/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTA0Ni1wLnBuZw.webp"></Avatar>
@@ -104,7 +115,7 @@ export function Management({ infos }: DeployedDroneProps) {
         <Pagination
           onChange={pageChanged}
           page={currentPageNumber}
-          count={Math.ceil(infos.length / 9)}
+          count={Math.ceil(drones.length / 9)}
           size="large"
           variant="outlined"
           sx={{

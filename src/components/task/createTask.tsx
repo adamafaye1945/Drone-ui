@@ -49,10 +49,10 @@ export function TaskCreation() {
   const [altitude, setAltitude] = useState("");
   const [destination, setDestination] = useState("");
   const [taskSelection, setTaskSelection] = useState<
-    "patrol" | "transport" | "charging" 
+    "patrol" | "transport" | "charging"
   >("transport");
   const dispatch = useDispatch();
-  const DroneState = useSelector((state) => state);
+
   function areAllNumbers(arr: string[]): boolean {
     return arr.every((item) => {
       const num = Number(item); // Explicit conversion to number
@@ -87,12 +87,12 @@ export function TaskCreation() {
         currentAction: taskSelection,
       };
       dispatch(TaskChanged(payload));
+      setShowForm(false);
       return;
     }
     console.log("error entering information make sure you enter number");
     // handling where to
   }
-  console.log(DroneState);
 
   return (
     <ThemeProvider theme={theme}>

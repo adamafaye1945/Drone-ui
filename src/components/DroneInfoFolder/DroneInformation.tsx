@@ -6,6 +6,7 @@ interface InfoProps {
   info: DeployedDroneInformation;
 }
 export function DroneInformationComponent({ info }: InfoProps) {
+  console.log("droneinfodebug", info)
   const { model, image } = info.information;
   const { position, currentAction, altitude } = info;
   return (

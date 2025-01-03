@@ -5,11 +5,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store/store";
 
 export function DashBoard() {
-  const drones = useSelector((state: RootState) => state.drone);
   return (
     <Grid2 container>
       <Grid2 size={4}>
-        <Management infos={drones} />
+        <Management />
       </Grid2>
       <Grid2 size={8}>
         <LeafletMap />

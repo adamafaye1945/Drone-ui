@@ -8,6 +8,10 @@ export interface TaskChanging {
   id: string;
   currentAction: "patrol" | "transport" | "charging" | "standby";
 }
+// export interface  StateType {
+//   currentDisplayedDrone : DeployedDroneInformation
+  
+// }
 const initialState: DeployedDroneInformation[] = [
   {
     task: {
