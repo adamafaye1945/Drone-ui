@@ -20,9 +20,7 @@ import { TaskCreation } from "../task/createTask";
 import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-interface DeployedDroneProps {
-  infos: DeployedDroneInformation[];
-}
+
 export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [currentDisplayedDrone, setCurrentDisplayedDrone] =
@@ -80,7 +78,7 @@ export function Management() {
           <DroneInformationComponent info={currentDisplayedDrone} />
           <Grid2 container spacing={3} justifyContent="space-between">
             <Grid2>
-              <Task />
+              <Task id={currentDisplayedDrone.information.id} />
             </Grid2>
             <Grid2>
               <ChargingStation />

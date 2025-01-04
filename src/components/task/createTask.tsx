@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { TaskObj } from "../../types/droneTypes";
 import { TaskChanged, TaskChanging } from "../../redux/slice/droneSlice";
-import { useSelector } from "react-redux";
 const theme = createTheme({
   components: {
     MuiTextField: {

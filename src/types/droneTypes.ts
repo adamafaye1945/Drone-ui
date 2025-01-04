@@ -20,6 +20,7 @@ export interface DeployedDroneInformation {
   information: DroneInformation;
   task: TaskObj;
   altitude?: number;
+  base: number[];
   position: number[];
   currentAction: "patrol" | "transport" | "charging" | "standby";
 }
@@ -34,4 +35,3 @@ export interface TaskObj {
   description: string;
   state: "in-progress" | "completed";
 }
-

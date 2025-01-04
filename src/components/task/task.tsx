@@ -1,9 +1,16 @@
 import { useState } from "react";
 import { CustomButton } from "../MyCustomButton";
 import { Collapse, Typography } from "@mui/material";
-
-export function Task() {
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+interface TaskProps {
+  id: string;
+}
+export function Task({ id }: TaskProps) {
   const [showTasks, setShowTasks] = useState(false);
+  const drone = useSelector((state: RootState) =>
+    state.drone.find((element) => element.information.id === id)
+  );
   return (
     <div>
       <CustomButton
@@ -15,10 +22,14 @@ export function Task() {
 
       <Collapse in={showTasks}>
         <div style={{ marginTop: "10px" }}>
-          <Typography variant="body1">Task: Deliver Amazon Package</Typography>
-          <Typography variant="body2">From: 40, -75</Typography>
-          <Typography variant="body2">To: 40, -72</Typography>
-          <Typography variant="body2">Status: In Progress</Typography>
+          <Typography variant="body1">Task: {drone?.currentAction}</Typography>
+          <Typography variant="body2">
+            From: {drone?.task.from.join(",")}
+          </Typography>
+          <Typography variant="body2">
+            To: {drone?.task.to.join(",")}
+          </Typography>
+          <Typography variant="body2">Status: {drone?.task.state}</Typography>
         </div>
       </Collapse>
     </div>

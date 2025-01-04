@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { chargingStation, droneIcon } from "../../map/icon";
+import { Drawline } from "../../map/drawing";
 
 const LeafletMap = () => {
   const start: [number, number] = [40.71, -74];
@@ -14,6 +15,11 @@ const LeafletMap = () => {
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; OpenStreetMap contributors"
+      />
+      <Drawline
+        pointA={start}
+        pointB={[40.8091501, -73.9515183]}
+        color="black"
       />
 
       <Marker position={start} icon={droneIcon}>

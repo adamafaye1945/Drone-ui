@@ -10,7 +10,7 @@ export interface TaskChanging {
 }
 // export interface  StateType {
 //   currentDisplayedDrone : DeployedDroneInformation
-  
+
 // }
 const initialState: DeployedDroneInformation[] = [
   {
@@ -18,7 +18,7 @@ const initialState: DeployedDroneInformation[] = [
       from: [40, -75],
       to: [40, -72],
       description: "Sending Amazon package to a nearby house",
-      state: "in-progress",
+      state: "completed",
     },
     information: {
       charge: 30,
@@ -27,9 +27,9 @@ const initialState: DeployedDroneInformation[] = [
       model: "seria12323",
       size: "small",
     },
-
-    altitude: 120,
     position: [40, -75],
+    altitude: 120,
+    base: [40, -75],
     currentAction: "standby",
   },
 ];
