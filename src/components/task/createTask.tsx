@@ -58,10 +58,8 @@ export function TaskCreation() {
       return !isNaN(num) && item.trim() !== ""; // Ensure it's a valid number and not empty
     });
   }
-  function convertBackToNumberArray(item: string[]) {
-    return item.map((ele) => {
-      return Number(ele);
-    });
+  function convertBackToNumberArray(item: string[]): [number, number] {
+    return [Number(item[0]), Number(item[1])];
   }
   function submitForm() {
     // position handling
@@ -107,7 +105,7 @@ export function TaskCreation() {
             value={position}
             onChange={(e) => setPosition(e.target.value)}
             id="outlined-basic"
-            label="Position of the Drone(lat, long)"
+            label="Pick-up location(lat, long)"
             variant="outlined"
             sx={{ width: "100%" }}
           />

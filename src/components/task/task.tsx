@@ -11,6 +11,7 @@ export function Task({ id }: TaskProps) {
   const drone = useSelector((state: RootState) =>
     state.drone.find((element) => element.information.id === id)
   );
+  
   return (
     <div>
       <CustomButton
@@ -21,16 +22,26 @@ export function Task({ id }: TaskProps) {
       />
 
       <Collapse in={showTasks}>
-        <div style={{ marginTop: "10px" }}>
-          <Typography variant="body1">Task: {drone?.currentAction}</Typography>
-          <Typography variant="body2">
-            From: {drone?.task.from.join(",")}
-          </Typography>
-          <Typography variant="body2">
-            To: {drone?.task.to.join(",")}
-          </Typography>
-          <Typography variant="body2">Status: {drone?.task.state}</Typography>
-        </div>
+        {drone?.task ? (
+          <div style={{ marginTop: "10px" }}>
+            <Typography variant="body1">
+              Task: {drone?.currentAction}
+            </Typography>
+            <Typography variant="body2">
+              From: {drone?.task?.from.join(",")}
+            </Typography>
+            <Typography variant="body2">
+              To: {drone?.task?.to.join(",")}
+            </Typography>
+            <Typography variant="body2">
+              Status: {drone?.task?.state}
+            </Typography>
+          </div>
+        ) : (
+          <div style={{ marginTop: "10px" }}>
+            Drone has no task available, Create one!
+          </div>
+        )}
       </Collapse>
     </div>
   );

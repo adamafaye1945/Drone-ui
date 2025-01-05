@@ -18,10 +18,10 @@ export interface DroneInformation {
 }
 export interface DeployedDroneInformation {
   information: DroneInformation;
-  task: TaskObj;
+  task: TaskObj | null;
   altitude?: number;
-  base: number[];
-  position: number[];
+  base: [number, number];
+  position: [number, number];
   currentAction: "patrol" | "transport" | "charging" | "standby";
 }
 export interface GroundedDroneInformation {
@@ -30,8 +30,8 @@ export interface GroundedDroneInformation {
 }
 
 export interface TaskObj {
-  from: number[];
-  to: number[];
+  from: [number, number];
+  to: [number, number];
   description: string;
   state: "in-progress" | "completed";
 }

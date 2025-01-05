@@ -6,7 +6,7 @@ interface InfoProps {
 export function DroneInformationComponent({ info }: InfoProps) {
   console.log("droneinfodebug", info);
   const { model, image } = info.information;
-  const { base, currentAction, altitude } = info;
+  const { base, currentAction, altitude, position } = info;
   return (
     <div style={{ marginTop: "20px" }}>
       <Grid2
@@ -24,6 +24,9 @@ export function DroneInformationComponent({ info }: InfoProps) {
             <Typography variant="body1">Altitude: {altitude}ft</Typography>
             <Typography variant="body1">
               Base Location: {base.join(", ")}
+            </Typography>
+            <Typography variant="body1">
+              Base Location: {position.join(", ")}
             </Typography>
             <Typography variant="body1">
               Current Action: {currentAction}
