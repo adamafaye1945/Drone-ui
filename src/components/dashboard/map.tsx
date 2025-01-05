@@ -1,10 +1,14 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { chargingStation, droneIcon } from "../../map/icon";
+import { Drawline } from "../../map/drawing";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 
 const LeafletMap = () => {
   const start: [number, number] = [40.71, -74];
   const charging: [number, number] = [40.61, -74];
+  const drones = useSelector((state: RootState) => state.drone);
   return (
     <MapContainer
       center={start}
@@ -15,6 +19,9 @@ const LeafletMap = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; OpenStreetMap contributors"
       />
+      {drones.map((drone) => (
+        <Drawline drone={drone} />
+      ))}
 
       <Marker position={start} icon={droneIcon}>
         <Popup>Drone connected!</Popup>

@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { TaskObj } from "../../types/droneTypes";
 import { TaskChanged, TaskChanging } from "../../redux/slice/droneSlice";
-import { useSelector } from "react-redux";
 const theme = createTheme({
   components: {
     MuiTextField: {
@@ -49,20 +48,18 @@ export function TaskCreation() {
   const [altitude, setAltitude] = useState("");
   const [destination, setDestination] = useState("");
   const [taskSelection, setTaskSelection] = useState<
-    "patrol" | "transport" | "charging" 
+    "patrol" | "transport" | "charging"
   >("transport");
   const dispatch = useDispatch();
-  const DroneState = useSelector((state) => state);
+
   function areAllNumbers(arr: string[]): boolean {
     return arr.every((item) => {
       const num = Number(item); // Explicit conversion to number
       return !isNaN(num) && item.trim() !== ""; // Ensure it's a valid number and not empty
     });
   }
-  function convertBackToNumberArray(item: string[]) {
-    return item.map((ele) => {
-      return Number(ele);
-    });
+  function convertBackToNumberArray(item: string[]): [number, number] {
+    return [Number(item[0]), Number(item[1])];
   }
   function submitForm() {
     // position handling
@@ -87,12 +84,12 @@ export function TaskCreation() {
         currentAction: taskSelection,
       };
       dispatch(TaskChanged(payload));
+      setShowForm(false);
       return;
     }
     console.log("error entering information make sure you enter number");
     // handling where to
   }
-  console.log(DroneState);
 
   return (
     <ThemeProvider theme={theme}>
@@ -108,7 +105,7 @@ export function TaskCreation() {
             value={position}
             onChange={(e) => setPosition(e.target.value)}
             id="outlined-basic"
-            label="Position of the Drone(lat, long)"
+            label="Pick-up location(lat, long)"
             variant="outlined"
             sx={{ width: "100%" }}
           />
