@@ -26,7 +26,8 @@ export function Management() {
   const [currentDisplayedDrone, setCurrentDisplayedDrone] =
     useState<DeployedDroneInformation>();
 
-  const drones = useSelector((state: RootState) => state.drone);
+  const drones = useSelector((state: RootState) => state.drone.deployed);
+  console.log(drones)
   useEffect(() => {
     if (currentDisplayedDrone) {
       const updatedDrone = drones.find(

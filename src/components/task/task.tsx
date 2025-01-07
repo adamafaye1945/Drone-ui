@@ -9,9 +9,9 @@ interface TaskProps {
 export function Task({ id }: TaskProps) {
   const [showTasks, setShowTasks] = useState(false);
   const drone = useSelector((state: RootState) =>
-    state.drone.find((element) => element.information.id === id)
+    state.drone.deployed.find((element) => element.information.id === id)
   );
-  
+
   return (
     <div>
       <CustomButton

@@ -8,7 +8,7 @@ import { RootState } from "../../redux/store/store";
 const LeafletMap = () => {
   const start: [number, number] = [40.71, -74];
   const charging: [number, number] = [40.61, -74];
-  const drones = useSelector((state: RootState) => state.drone);
+  const drones = useSelector((state: RootState) => state.drone.deployed);
   return (
     <MapContainer
       center={start}
@@ -20,7 +20,10 @@ const LeafletMap = () => {
         attribution="&copy; OpenStreetMap contributors"
       />
       {drones.map((drone) => (
-        <Drawline drone={drone} />
+        <div>
+          <Marker position={drone.position} icon={droneIcon} />
+          <Drawline drone={drone} />
+        </div>
       ))}
 
       <Marker position={start} icon={droneIcon}>
