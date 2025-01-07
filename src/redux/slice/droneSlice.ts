@@ -13,6 +13,7 @@ export interface TaskChanging {
   currentAction: "patrol" | "transport" | "charging" | "standby";
 }
 interface stateType {
+  focusedDrone: DeployedDroneInformation | undefined;
   grounded: GroundedDroneInformation[];
   deployed: DeployedDroneInformation[];
 }
@@ -21,6 +22,7 @@ interface stateType {
 
 // }
 const initialState: stateType = {
+  focusedDrone: undefined,
   deployed: [
     {
       task: null,
@@ -44,6 +46,12 @@ const DeployedDroneSlice = createSlice({
   name: "Drone",
   initialState,
   reducers: {
+    setFocusedDrone: (
+      state,
+      action: PayloadAction<DeployedDroneInformation | undefined>
+    ) => {
+      state.focusedDrone = action.payload;
+    },
     addDrone: (state, action: PayloadAction<DeployedDroneInformation>) => {
       state.deployed.push(action.payload);
     },
@@ -67,11 +75,11 @@ const DeployedDroneSlice = createSlice({
       state.deployed[index].task = task;
       state.deployed[index].altitude = altitude;
       state.deployed[index].currentAction = currentAction;
-      
     },
   },
 });
 
-export const { addDrone, TaskChanged } = DeployedDroneSlice.actions;
+export const { addDrone, TaskChanged, setFocusedDrone } =
+  DeployedDroneSlice.actions;
 
 export default DeployedDroneSlice.reducer;

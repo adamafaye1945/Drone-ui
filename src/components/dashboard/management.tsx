@@ -18,30 +18,33 @@ import { ChargingStation } from "../DroneInfoFolder/chargingStation";
 import { CloseButton } from "../MyCustomButton";
 import { TaskCreation } from "../task/createTask";
 import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
+import { setFocusedDrone } from "../../redux/slice/droneSlice";
 
 export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
-  const [currentDisplayedDrone, setCurrentDisplayedDrone] =
-    useState<DeployedDroneInformation>();
+  const currentDisplayedDrone = useSelector(
+    (state: RootState) => state.drone.focusedDrone
+  );
+  const dispatch = useDispatch()
 
   const drones = useSelector((state: RootState) => state.drone.deployed);
-  console.log(drones)
+  console.log(drones);
   useEffect(() => {
     if (currentDisplayedDrone) {
       const updatedDrone = drones.find(
         (drone) => drone.information.id === currentDisplayedDrone.information.id
       );
       if (updatedDrone) {
-        setCurrentDisplayedDrone(updatedDrone);
+        dispatch(setFocusedDrone(updatedDrone));
       }
     }
   }, [drones]);
   // calculating number of element appearing in a page
 
   function CloseButtonclicked() {
-    setCurrentDisplayedDrone(undefined);
+    dispatch(setFocusedDrone(undefined));
   }
   function pageChanged(_: React.ChangeEvent<unknown>, page: number) {
     setCurrentPageNumber(page);
@@ -95,7 +98,7 @@ export function Management() {
       ) : (
         <List sx={{ width: "100%" }}>
           {paginatedInfos.map((info, index) => (
-            <ListItemButton onClick={() => setCurrentDisplayedDrone(info)}>
+            <ListItemButton onClick={() => dispatch(setFocusedDrone(info))}>
               <ListItem key={index} sx={{ borderBottom: "1px solid #333" }}>
                 <ListItemAvatar>
                   <Avatar src="src/assets/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTA0Ni1wLnBuZw.webp"></Avatar>
