@@ -12,7 +12,6 @@ export function Drawline({ drone }: DrawProps) {
     (position): position is [number, number] =>
       position !== undefined && position !== null
   );
-  console.log(line);
   return (
     <>
       <Polyline pathOptions={colorOptions} positions={line} />
