@@ -28,12 +28,40 @@ const initialState: stateType = {
       task: null,
       information: {
         charge: 30,
-        id: "1234",
+        id: "124",
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
         model: "seria12323",
         size: "small",
       },
-      position: [40.71, -74],
+      position: [41.71, -74.8],
+      altitude: 120,
+      base: [40.71, -74],
+      currentAction: "standby",
+    },
+    {
+      task: null,
+      information: {
+        charge: 30,
+        id: "14",
+        image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
+        model: "seria12323",
+        size: "small",
+      },
+      position: [40.71, -74.9],
+      altitude: 120,
+      base: [40.71, -74],
+      currentAction: "standby",
+    },
+    {
+      task: null,
+      information: {
+        charge: 30,
+        id: "12",
+        image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
+        model: "seria12323",
+        size: "small",
+      },
+      position: [40.71, -74.8],
       altitude: 120,
       base: [40.71, -74],
       currentAction: "standby",
@@ -67,8 +95,10 @@ const DeployedDroneSlice = createSlice({
       };
       state.grounded.push(deployed2Grounded);
     },
-    TaskChanged: (state, action: PayloadAction<TaskChanging>) => {
+    // deployDrone: (state, action: PayloadAction<GroundedDroneInformation>) => {},
+    taskChanged: (state, action: PayloadAction<TaskChanging>) => {
       const { id, task, altitude, currentAction } = action.payload;
+  
       const index = state.deployed.findIndex(
         (drone) => drone.information.id === id
       );
@@ -79,7 +109,7 @@ const DeployedDroneSlice = createSlice({
   },
 });
 
-export const { addDrone, TaskChanged, setFocusedDrone } =
+export const { addDrone, taskChanged, setFocusedDrone } =
   DeployedDroneSlice.actions;
 
 export default DeployedDroneSlice.reducer;
