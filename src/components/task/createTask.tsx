@@ -11,7 +11,9 @@ import CustomizedRadios, { CustomButton } from "../MyCustomButton";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { TaskObj } from "../../types/droneTypes";
-import { TaskChanged, TaskChanging } from "../../redux/slice/droneSlice";
+import { taskChanged, TaskChanging } from "../../redux/slice/droneSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 const theme = createTheme({
   components: {
     MuiTextField: {
@@ -43,6 +45,9 @@ const theme = createTheme({
   },
 });
 export function TaskCreation() {
+  const focusedDrone = useSelector(
+    (state: RootState) => state.drone.focusedDrone
+  );
   const [showForm, setShowForm] = useState(false);
   const [position, setPosition] = useState("");
   const [altitude, setAltitude] = useState("");
@@ -66,7 +71,11 @@ export function TaskCreation() {
     const positionState = position.split(",");
     const destinationState = destination.split(",");
 
-    if (areAllNumbers(positionState) && areAllNumbers(destinationState)) {
+    if (
+      areAllNumbers(positionState) &&
+      areAllNumbers(destinationState) &&
+      focusedDrone
+    ) {
       const finalStatePos = convertBackToNumberArray(positionState);
       const finalStateDestinationState =
         convertBackToNumberArray(destinationState);
@@ -79,11 +88,11 @@ export function TaskCreation() {
       };
       const payload: TaskChanging = {
         task,
-        id: "1234",
+        id: focusedDrone.information.id,
         altitude: Number(altitude),
         currentAction: taskSelection,
       };
-      dispatch(TaskChanged(payload));
+      dispatch(taskChanged(payload));
       setShowForm(false);
       return;
     }

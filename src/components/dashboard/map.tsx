@@ -2,12 +2,14 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { chargingStation, droneIcon } from "../../map/icon";
 import { Drawline } from "../../map/drawing";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
 
-import { DeployedDroneInformation } from "../../types/droneTypes";
-interface MapProps {
-  drone: DeployedDroneInformation | undefined;
-}
-const LeafletMap = ({ drone }: MapProps) => {
+const LeafletMap = () => {
+  const focusedDrone = useSelector(
+    (state: RootState) => state.drone.focusedDrone
+  );
+  const allDrones = useSelector((state: RootState) => state.drone.deployed);
   const start: [number, number] = [40.71, -74];
   const charging: [number, number] = [40.61, -74];
   return (
@@ -20,16 +22,14 @@ const LeafletMap = ({ drone }: MapProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution="&copy; OpenStreetMap contributors"
       />
-      {drone && (
-        <div>
-          <Marker position={drone.position} icon={droneIcon} />
-          <Drawline drone={drone} />
-        </div>
-      )}
+      {focusedDrone && <Drawline drone={focusedDrone} />}
 
-      <Marker position={start} icon={droneIcon}>
-        <Popup>Drone connected!</Popup>
-      </Marker>
+      {allDrones &&
+        allDrones.map((singleDrone) => (
+          <Marker position={singleDrone.position} icon={droneIcon}>
+            <Popup>Drone connected!</Popup>
+          </Marker>
+        ))}
       <Marker position={charging} icon={chargingStation}>
         <Popup>charging station detected!</Popup>
       </Marker>

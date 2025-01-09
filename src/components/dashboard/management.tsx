@@ -10,7 +10,6 @@ import {
   Stack,
   Grid2,
 } from "@mui/material";
-import { DeployedDroneInformation } from "../../types/droneTypes";
 import DroneFleetManagement from "../droneFleet/droneFleet";
 import { useEffect, useState } from "react";
 import { Task } from "../task/task";
@@ -27,10 +26,10 @@ export function Management() {
   const currentDisplayedDrone = useSelector(
     (state: RootState) => state.drone.focusedDrone
   );
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const drones = useSelector((state: RootState) => state.drone.deployed);
-  console.log(drones);
+  // make sure currentDisplayed drone reflect changes that happened in the redux state
   useEffect(() => {
     if (currentDisplayedDrone) {
       const updatedDrone = drones.find(
@@ -45,6 +44,7 @@ export function Management() {
 
   function CloseButtonclicked() {
     dispatch(setFocusedDrone(undefined));
+    
   }
   function pageChanged(_: React.ChangeEvent<unknown>, page: number) {
     setCurrentPageNumber(page);
