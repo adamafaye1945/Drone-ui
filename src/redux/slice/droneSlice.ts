@@ -5,6 +5,7 @@ import {
   GroundedDroneInformation,
   TaskObj,
 } from "../../types/droneTypes";
+import { GridRowId } from "@mui/x-data-grid";
 
 export interface TaskChanging {
   task: TaskObj;
@@ -32,10 +33,10 @@ const initialState: stateType = {
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
         model: "seria12323",
         size: "small",
+        base: [40.71, -74],
       },
       position: [41.71, -74.8],
       altitude: 120,
-      base: [40.71, -74],
       currentAction: "standby",
     },
     {
@@ -46,10 +47,10 @@ const initialState: stateType = {
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
         model: "seria12323",
         size: "small",
+        base: [40.71, -74],
       },
       position: [40.71, -74.9],
       altitude: 120,
-      base: [40.71, -74],
       currentAction: "standby",
     },
     {
@@ -60,14 +61,27 @@ const initialState: stateType = {
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
         model: "seria12323",
         size: "small",
+        base: [40.71, -74],
       },
       position: [40.71, -74.8],
       altitude: 120,
-      base: [40.71, -74],
       currentAction: "standby",
     },
   ],
-  grounded: [],
+  grounded: [
+    {
+      information: {
+        id: "1212",
+        model: "seria12",
+        charge: 3,
+        image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
+        size: "medium",
+        carrying: 10,
+        base: [40.71, -74],
+      },
+      availability: "Available", // Correct spelling
+    },
+  ],
 };
 
 const DeployedDroneSlice = createSlice({
@@ -95,7 +109,26 @@ const DeployedDroneSlice = createSlice({
       };
       state.grounded.push(deployed2Grounded);
     },
-    // deployDrone: (state, action: PayloadAction<GroundedDroneInformation>) => {},
+    // this deploy multiple drone given id
+    deployDrones: (state, action: PayloadAction<Set<GridRowId>>) => {
+      //copy
+      const deployedDroneFromGround: GroundedDroneInformation[] =
+        state.grounded.filter((drone) =>
+          action.payload.has(drone.information.id)
+        );
+      const deployedDroneFromGroundTodeploy: DeployedDroneInformation[] =
+        deployedDroneFromGround.map((drone) => ({
+          information: drone.information,
+          task: null,
+          altitude: 0,
+          position: drone.information.base,
+          currentAction: "standby",
+        }));
+      state.deployed.push(...deployedDroneFromGroundTodeploy);
+      state.grounded = state.grounded.filter(
+        (drone) => !action.payload.has(drone.information.id)
+      );
+    },
     taskChanged: (state, action: PayloadAction<TaskChanging>) => {
       const { id, task, altitude, currentAction } = action.payload;
 
@@ -109,7 +142,7 @@ const DeployedDroneSlice = createSlice({
   },
 });
 
-export const { addDrone, taskChanged, setFocusedDrone } =
+export const { addDrone, taskChanged, setFocusedDrone, deployDrones } =
   DeployedDroneSlice.actions;
 
 export default DeployedDroneSlice.reducer;
