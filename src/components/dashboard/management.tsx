@@ -1,10 +1,6 @@
 import {
   Box,
   List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-  Avatar,
   ListItemButton,
   Pagination,
   Stack,
@@ -20,6 +16,7 @@ import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { setFocusedDrone } from "../../redux/slice/droneSlice";
+import { DeployedDroneItem } from "./deployedDroneItem";
 
 export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
@@ -44,7 +41,6 @@ export function Management() {
 
   function CloseButtonclicked() {
     dispatch(setFocusedDrone(undefined));
-    
   }
   function pageChanged(_: React.ChangeEvent<unknown>, page: number) {
     setCurrentPageNumber(page);
@@ -99,16 +95,7 @@ export function Management() {
         <List sx={{ width: "100%" }}>
           {paginatedInfos.map((info, index) => (
             <ListItemButton onClick={() => dispatch(setFocusedDrone(info))}>
-              <ListItem key={index} sx={{ borderBottom: "1px solid #333" }}>
-                <ListItemAvatar>
-                  <Avatar src="src/assets/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTA0Ni1wLnBuZw.webp"></Avatar>
-                </ListItemAvatar>
-                <ListItemText
-                  sx={{ color: "white" }}
-                  primary={info.information.model}
-                  secondary={info.currentAction}
-                />
-              </ListItem>
+              <DeployedDroneItem info={info} index={index} />
             </ListItemButton>
           ))}
         </List>

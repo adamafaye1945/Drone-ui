@@ -98,7 +98,7 @@ const DeployedDroneSlice = createSlice({
     // deployDrone: (state, action: PayloadAction<GroundedDroneInformation>) => {},
     taskChanged: (state, action: PayloadAction<TaskChanging>) => {
       const { id, task, altitude, currentAction } = action.payload;
-  
+
       const index = state.deployed.findIndex(
         (drone) => drone.information.id === id
       );
