@@ -1,7 +1,6 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-
+import React from "react";
 import List from "@mui/material/List";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,6 +11,10 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { CustomButton } from "../MyCustomButton";
 import DataTable from "./tableFleet";
+import { useState } from "react";
+import { GridRowSelectionModel } from "@mui/x-data-grid";
+import { useDispatch } from "react-redux";
+import { deployDrones } from "../../redux/slice/droneSlice";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -19,11 +22,20 @@ const Transition = React.forwardRef(function Transition(
   },
   ref: React.Ref<unknown>
 ) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction="right" ref={ref} {...props} />;
 });
 
 export default function DroneFleetManagement() {
-  const [open, setOpen] = React.useState(false);
+  const [rowSelected, setRowSelected] = useState<GridRowSelectionModel>();
+
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  function RemakeDataAndDeployDrone(row: GridRowSelectionModel | undefined) {
+    if (row) {
+      const rowSelectedSet = new Set(row);
+      dispatch(deployDrones(rowSelectedSet));
+    }
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -31,6 +43,10 @@ export default function DroneFleetManagement() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+  const executeFunc = () => {
+    setOpen(false);
+    RemakeDataAndDeployDrone(rowSelected);
   };
 
   return (
@@ -60,13 +76,13 @@ export default function DroneFleetManagement() {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Drone Fleet
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            <Button autoFocus color="inherit" onClick={executeFunc}>
               Execute
             </Button>
           </Toolbar>
         </AppBar>
         <List>
-          <DataTable />
+          <DataTable setRowSelected={setRowSelected} />
         </List>
       </Dialog>
     </React.Fragment>

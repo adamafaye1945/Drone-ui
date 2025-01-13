@@ -15,12 +15,12 @@ export interface DroneInformation {
   size: "small" | "medium" | "large";
   model: string;
   carrying?: null | number;
+  base :[number, number]
 }
 export interface DeployedDroneInformation {
   information: DroneInformation;
   task: TaskObj | null;
   altitude?: number;
-  base: [number, number];
   position: [number, number];
   currentAction: "patrol" | "transport" | "charging" | "standby";
 }
