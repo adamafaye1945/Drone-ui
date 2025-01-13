@@ -10,12 +10,12 @@ import DroneFleetManagement from "../droneFleet/droneFleet";
 import { useEffect, useState } from "react";
 import { Task } from "../task/task";
 import { ChargingStation } from "../DroneInfoFolder/chargingStation";
-import { CloseButton } from "../MyCustomButton";
+import { CloseButton, CustomButton } from "../MyCustomButton";
 import { TaskCreation } from "../task/createTask";
 import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { setFocusedDrone } from "../../redux/slice/droneSlice";
+import { groundDrone, setFocusedDrone } from "../../redux/slice/droneSlice";
 import { DeployedDroneItem } from "./deployedDroneItem";
 
 export function Management() {
@@ -38,7 +38,12 @@ export function Management() {
     }
   }, [drones]);
   // calculating number of element appearing in a page
-
+  function droneGrounding() {
+    if (currentDisplayedDrone) {
+      dispatch(groundDrone(currentDisplayedDrone));
+      CloseButtonclicked();
+    }
+  }
   function CloseButtonclicked() {
     dispatch(setFocusedDrone(undefined));
   }
@@ -87,7 +92,12 @@ export function Management() {
               <TaskCreation />
             </Grid2>
             <Grid2>
-              <ChargingStation />
+              <CustomButton
+                text="Ground Drone"
+                size={200}
+                type="navigate"
+                action={droneGrounding}
+              />
             </Grid2>
           </Grid2>
         </Stack>

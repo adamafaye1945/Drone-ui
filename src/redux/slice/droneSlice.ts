@@ -31,7 +31,7 @@ const initialState: stateType = {
         charge: 30,
         id: "124",
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
-        model: "seria12323",
+        model: "seria124",
         size: "small",
         base: [40.71, -74],
       },
@@ -45,7 +45,7 @@ const initialState: stateType = {
         charge: 30,
         id: "14",
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
-        model: "seria12323",
+        model: "seria12",
         size: "small",
         base: [40.71, -74],
       },
@@ -59,7 +59,7 @@ const initialState: stateType = {
         charge: 30,
         id: "12",
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
-        model: "seria12323",
+        model: "seria10023",
         size: "small",
         base: [40.71, -74],
       },
@@ -72,7 +72,7 @@ const initialState: stateType = {
     {
       information: {
         id: "1212",
-        model: "seria12",
+        model: "seria1902",
         charge: 3,
         image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
         size: "medium",
@@ -142,7 +142,7 @@ const DeployedDroneSlice = createSlice({
   },
 });
 
-export const { addDrone, taskChanged, setFocusedDrone, deployDrones } =
+export const { addDrone, taskChanged, setFocusedDrone, deployDrones, groundDrone} =
   DeployedDroneSlice.actions;
 
 export default DeployedDroneSlice.reducer;
