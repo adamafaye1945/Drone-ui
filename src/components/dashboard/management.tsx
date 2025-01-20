@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { groundDrone, setFocusedDrone } from "../../redux/slice/droneSlice";
 import { DeployedDroneItem } from "./deployedDroneItem";
+import { selectFilteredDrones } from "../../redux/derivedState";
+import { Search } from "./Search";
 
 export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
@@ -25,7 +27,7 @@ export function Management() {
   );
   const dispatch = useDispatch();
 
-  const drones = useSelector((state: RootState) => state.drone.deployed);
+  const drones = useSelector(selectFilteredDrones);
   // make sure currentDisplayed drone reflect changes that happened in the redux state
   useEffect(() => {
     if (currentDisplayedDrone) {
@@ -70,20 +72,25 @@ export function Management() {
     >
       <Stack
         direction={"row"}
-        spacing={40}
-        justifyContent="space-around"
+        spacing={13}
+        justifyContent="space-between"
         alignItems="center"
         sx={{ width: "100%" }}
       >
-        <DroneFleetManagement />{" "}
-        {currentDisplayedDrone && <CloseButton onClose={CloseButtonclicked} />}
+        <DroneFleetManagement />
+
+        {currentDisplayedDrone ? (
+          <CloseButton onClose={CloseButtonclicked} />
+        ) : (
+          <Search />
+        )}
       </Stack>
       {currentDisplayedDrone ? (
         <Stack spacing={3}>
           <DroneInformationComponent info={currentDisplayedDrone} />
           <Grid2 container spacing={3} justifyContent="space-between">
             <Grid2>
-              <Task id={currentDisplayedDrone.information.id} />
+              <Task />
             </Grid2>
             <Grid2>
               <ChargingStation />

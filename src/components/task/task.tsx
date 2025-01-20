@@ -6,11 +6,9 @@ import { RootState } from "../../redux/store/store";
 interface TaskProps {
   id: string;
 }
-export function Task({ id }: TaskProps) {
+export function Task() {
   const [showTasks, setShowTasks] = useState(false);
-  const drone = useSelector((state: RootState) =>
-    state.drone.deployed.find((element) => element.information.id === id)
-  );
+  const drone = useSelector((state: RootState) => state.drone.focusedDrone);
 
   return (
     <div>

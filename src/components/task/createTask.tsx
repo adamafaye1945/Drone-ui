@@ -14,7 +14,7 @@ import { TaskObj } from "../../types/droneTypes";
 import { taskChanged, TaskChanging } from "../../redux/slice/droneSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-const theme = createTheme({
+export const theme = createTheme({
   components: {
     MuiTextField: {
       styleOverrides: {

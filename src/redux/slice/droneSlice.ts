@@ -14,6 +14,7 @@ export interface TaskChanging {
   currentAction: "patrol" | "transport" | "charging" | "standby";
 }
 interface stateType {
+  searchQuery: string;
   focusedDrone: DeployedDroneInformation | undefined;
   grounded: GroundedDroneInformation[];
   deployed: DeployedDroneInformation[];
@@ -23,6 +24,7 @@ interface stateType {
 
 // }
 const initialState: stateType = {
+  searchQuery: "",
   focusedDrone: undefined,
   deployed: [
     {
@@ -88,6 +90,9 @@ const DeployedDroneSlice = createSlice({
   name: "Drone",
   initialState,
   reducers: {
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
     setFocusedDrone: (
       state,
       action: PayloadAction<DeployedDroneInformation | undefined>
@@ -142,7 +147,13 @@ const DeployedDroneSlice = createSlice({
   },
 });
 
-export const { addDrone, taskChanged, setFocusedDrone, deployDrones, groundDrone} =
-  DeployedDroneSlice.actions;
+export const {
+  addDrone,
+  taskChanged,
+  setFocusedDrone,
+  deployDrones,
+  groundDrone,
+  setSearchQuery,
+} = DeployedDroneSlice.actions;
 
 export default DeployedDroneSlice.reducer;
