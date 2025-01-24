@@ -3,9 +3,6 @@ import { theme } from "../task/createTask";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
 import { setSearchQuery } from "../../redux/slice/droneSlice";
 
 export function Search() {

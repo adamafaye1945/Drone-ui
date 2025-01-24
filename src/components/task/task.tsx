@@ -3,9 +3,6 @@ import { CustomButton } from "../MyCustomButton";
 import { Collapse, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-interface TaskProps {
-  id: string;
-}
 export function Task() {
   const [showTasks, setShowTasks] = useState(false);
   const drone = useSelector((state: RootState) => state.drone.focusedDrone);

@@ -14,31 +14,33 @@ import { CloseButton, CustomButton } from "../MyCustomButton";
 import { TaskCreation } from "../task/createTask";
 import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
 import { groundDrone, setFocusedDrone } from "../../redux/slice/droneSlice";
 import { DeployedDroneItem } from "./deployedDroneItem";
-import { selectFilteredDrones } from "../../redux/derivedState";
-import { Search } from "./Search";
+import { searchTrie, selectFilteredDrones } from "../../redux/derivedState";
+import { Search } from "../search/Search";
+import { RootState } from "../../redux/store/store";
 
 export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const currentDisplayedDrone = useSelector(
     (state: RootState) => state.drone.focusedDrone
   );
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const drones = useSelector(selectFilteredDrones);
+  const trie = useSelector(searchTrie);
+  // insert in trie for quick search
   // make sure currentDisplayed drone reflect changes that happened in the redux state
   useEffect(() => {
-    if (currentDisplayedDrone) {
-      const updatedDrone = drones.find(
-        (drone) => drone.information.id === currentDisplayedDrone.information.id
-      );
-      if (updatedDrone) {
-        dispatch(setFocusedDrone(updatedDrone));
-      }
+    if (!drones || !currentDisplayedDrone) return;
+
+    const updatedDrone = trie.search(currentDisplayedDrone.information.model);
+
+    if (updatedDrone) {
+      dispatch(setFocusedDrone(updatedDrone[0]));
     }
-  }, [drones]);
+  }, [drones, currentDisplayedDrone, dispatch]);
+
   // calculating number of element appearing in a page
   function droneGrounding() {
     if (currentDisplayedDrone) {
@@ -57,7 +59,7 @@ export function Management() {
     const endIndex = startIndex + itemsPerPage;
     return array.slice(startIndex, endIndex);
   }
-  const paginatedInfos = paginate(drones, currentPageNumber, 9);
+  const paginatedInfos = drones ? paginate(drones, currentPageNumber, 9) : [];
   return (
     <Box
       sx={{
@@ -121,7 +123,7 @@ export function Management() {
         <Pagination
           onChange={pageChanged}
           page={currentPageNumber}
-          count={Math.ceil(drones.length / 9)}
+          count={drones ? Math.ceil(drones.length / 9) : 0}
           size="large"
           variant="outlined"
           sx={{
