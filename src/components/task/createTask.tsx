@@ -4,7 +4,6 @@ import {
   Stack,
   TextField,
   ThemeProvider,
-  createTheme,
 } from "@mui/material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import CustomizedRadios, { CustomButton } from "../MyCustomButton";
@@ -14,36 +13,9 @@ import { TaskObj } from "../../types/droneTypes";
 import { taskChanged, TaskChanging } from "../../redux/slice/droneSlice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-export const theme = createTheme({
-  components: {
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          "& .MuiInputBase-input": {
-            color: "white",
-          },
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "#86A788", // Default border color
-            },
-            "&:hover fieldset": {
-              borderColor: "#86A788", // Hover border color
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: "#86A788", // Focused border color
-            },
-          },
-          "& .MuiInputLabel-root": {
-            color: "#86A788", // Label color
-          },
-          "& .MuiInputLabel-root.Mui-focused": {
-            color: "#86A788", // Focused label color
-          },
-        },
-      },
-    },
-  },
-});
+import { theme } from "../../form/theme";
+import { areAllNumbers, convertBackToNumberArray } from "../../form/validation";
+
 export function TaskCreation() {
   const focusedDrone = useSelector(
     (state: RootState) => state.drone.focusedDrone
@@ -57,15 +29,6 @@ export function TaskCreation() {
   >("transport");
   const dispatch = useDispatch();
 
-  function areAllNumbers(arr: string[]): boolean {
-    return arr.every((item) => {
-      const num = Number(item); // Explicit conversion to number
-      return !isNaN(num) && item.trim() !== ""; // Ensure it's a valid number and not empty
-    });
-  }
-  function convertBackToNumberArray(item: string[]): [number, number] {
-    return [Number(item[0]), Number(item[1])];
-  }
   function submitForm() {
     // position handling
     const positionState = position.split(",");

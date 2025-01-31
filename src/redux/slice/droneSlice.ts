@@ -101,8 +101,8 @@ const DeployedDroneSlice = createSlice({
     ) => {
       state.focusedDrone = action.payload;
     },
-    addDrone: (state, { payload }: PayloadAction<DeployedDroneInformation>) => {
-      state.deployed.push(payload);
+    addDrone: (state, { payload }: PayloadAction<GroundedDroneInformation>) => {
+      state.grounded.push(payload);
     },
     groundDrone: (state, action: PayloadAction<DeployedDroneInformation>) => {
       const { information } = action.payload;

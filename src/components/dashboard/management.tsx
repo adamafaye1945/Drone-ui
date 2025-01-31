@@ -10,13 +10,14 @@ import { RootState } from "../../redux/store/store";
 import { SingleDroneManager } from "./SingleDroneManager";
 import { DeployedDroneList } from "./DeployedDroneList";
 import { PaginationComponent } from "./Pagination";
+import { DroneRegistry } from "../droneFleet/DroneRegistery";
 
 export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [displayDroneRegistery, setDisplayDroneRegistery] = useState(false);
   const currentDisplayedDrone = useSelector(
     (state: RootState) => state.drone.focusedDrone
   );
-
   const dispatch = useDispatch();
   const drones = useSelector(selectFilteredDrones);
   const trie = useSelector(searchTrie);
@@ -33,6 +34,9 @@ export function Management() {
   }, [drones, currentDisplayedDrone, dispatch]);
 
   // calculating number of element appearing in a page
+  function registeryDisplaying() {
+    setDisplayDroneRegistery(!displayDroneRegistery);
+  }
   function droneGrounding() {
     if (currentDisplayedDrone) {
       dispatch(groundDrone(currentDisplayedDrone));
@@ -76,7 +80,12 @@ export function Management() {
           <CloseButton onClose={CloseButtonclicked} />
         ) : (
           <>
-            <CustomButton text="Register Drone" type="navigate" size={300} />
+            <CustomButton
+              text="Register Drone"
+              type="navigate"
+              size={300}
+              action={registeryDisplaying}
+            />
             <Search />
           </>
         )}
@@ -86,6 +95,8 @@ export function Management() {
           currentDisplayedDrone={currentDisplayedDrone}
           droneGrounding={droneGrounding}
         />
+      ) : displayDroneRegistery ? (
+        <DroneRegistry setDisplayDroneRegistery={setDisplayDroneRegistery} />
       ) : (
         <DeployedDroneList paginatedInfos={paginatedInfos} />
       )}

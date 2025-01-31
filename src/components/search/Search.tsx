@@ -1,9 +1,9 @@
 import { TextField, ThemeProvider, InputAdornment } from "@mui/material";
-import { theme } from "../task/createTask";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSearchQuery } from "../../redux/slice/droneSlice";
+import { theme } from "../../form/theme";
 
 export function Search() {
   const dispatch = useDispatch();
