@@ -12,22 +12,33 @@ export function CustomButton({
   type,
   size,
   action,
-  children,
+  sx,
 }: ButtonInterface): JSX.Element {
   return (
     <Button
       variant="contained"
-      sx={{
-        width: size,
-        backgroundColor: type == "navigate" ? "#86A788" : "red",
-      }}
       onClick={action}
+      sx={{
+        // Responsive width: full width on extra-small screens, and fallback to the "size" prop on small screens and above.
+        width: { xs: "100%", sm: size || "auto" },
+
+        // Responsive height: adjust the height based on screen size.
+
+        // Responsive padding: smaller on mobile devices, larger on bigger screens.
+        padding: { xs: "8px", sm: "10px 20px" },
+
+        // Set the background color based on the type.
+        backgroundColor: type === "navigate" ? "#86A788" : "red",
+        borderRadius: "20px",
+        // Merge any additional styles passed via the sx prop.
+        ...sx,
+      }}
     >
       {text}
-      {children}
     </Button>
   );
 }
+
 interface closeProps {
   onClose: () => void;
 }
@@ -145,9 +156,7 @@ export default function CustomizedRadios({
         name="customized-radios"
         value={taskValue}
         onChange={(e) =>
-          setTaskValue(
-            e.target.value as "patrol" | "transport" | "charging"
-          )
+          setTaskValue(e.target.value as "patrol" | "transport" | "charging")
         }
       >
         <FormControlLabel value="patrol" control={<BpRadio />} label="patrol" />

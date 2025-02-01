@@ -10,3 +10,7 @@ export function convertBackToNumberArray(item: string[]): [number, number] {
 
 export const generateRandomID = (): string =>
   Math.random().toString(36).substring(2, 8);
+
+export function isValidInput(input: string): boolean {
+  return /^[A-Za-z0-9]+$/.test(input);
+}

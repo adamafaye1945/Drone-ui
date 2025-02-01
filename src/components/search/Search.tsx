@@ -24,7 +24,7 @@ export function Search() {
         id="outlined-basic"
         label="Look up for a drone"
         variant="outlined"
-        sx={{ width: "100%" }}
+        sx={{ width: "35%" }}
         InputProps={{
           startAdornment: (
             <InputAdornment style={{ color: "white" }} position="start">

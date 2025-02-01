@@ -1,5 +1,6 @@
 import { ThemeProvider } from "@emotion/react";
 import {
+  Alert,
   Button,
   Checkbox,
   FormControl,
@@ -20,10 +21,12 @@ import {
   areAllNumbers,
   convertBackToNumberArray,
   generateRandomID,
+  isValidInput,
 } from "../../form/validation";
 import { GroundedDroneInformation } from "../../types/droneTypes";
 import { useDispatch } from "react-redux";
 import { addDrone } from "../../redux/slice/droneSlice";
+import { AlertMessage } from "../stuffLIKEALERT/alert";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -36,7 +39,7 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
-type sizeType = "small" | "medium" | "large";
+type sizeType = "small" | "medium" | "large" | undefined;
 interface DroneRegisteryProps {
   setDisplayDroneRegistery: (display: boolean) => void;
 }
@@ -44,14 +47,42 @@ export function DroneRegistry({
   setDisplayDroneRegistery,
 }: DroneRegisteryProps) {
   const dispatch = useDispatch();
+  const [modelinputError, setModelInputError] = useState(false);
+  const [geolocationError, setGeolocationError] = useState(false);
   const [model, setModel] = useState("");
   const [baseLocation, setBaseLocation] = useState("");
   const [size, setSize] = useState("");
   const [carry, setCarry] = useState(false);
+  function geolocationErrorSeen() {
+    setGeolocationError(false);
+  }
+  function modelinputErrorSeen() {
+    setModelInputError(false);
+  }
+  function triggerAlert(input: string) {
+    if (input == "geolocation") {
+      setGeolocationError(true);
+      return;
+    }
+    if (input == "modelError") {
+      setModelInputError(true);
+      return;
+    }
+  }
   async function FormSubmission() {
     const base_string = baseLocation.split(",");
-    if (!areAllNumbers(base_string)) {
-      console.log("base location format is not valid");
+    if (!areAllNumbers(base_string) && !isValidInput(model)) {
+      triggerAlert("geolocation");
+      triggerAlert("modelError");
+      return;
+    }
+
+    if (!areAllNumbers(base_string) || base_string.length <= 1) {
+      triggerAlert("geolocation");
+      return;
+    }
+    if (!isValidInput(model)) {
+      triggerAlert("modelError");
       return;
     }
     const baseArray = convertBackToNumberArray(base_string);
@@ -74,6 +105,20 @@ export function DroneRegistry({
     <ThemeProvider theme={theme}>
       <Stack sx={{ marginTop: "20px" }} spacing={3}>
         <Typography fontSize={25}>Drone Registration Form</Typography>
+        {geolocationError && (
+          <AlertMessage
+            message="Error in the geolocation input, check format(ex: 32, -12) "
+            type="error"
+            action={geolocationErrorSeen}
+          />
+        )}
+        {modelinputError && (
+          <AlertMessage
+            message="Error in the model input, check format (no space, no special characters)"
+            type="error"
+            action={modelinputErrorSeen}
+          />
+        )}
         <Stack direction={"row"} spacing={3} sx={{ marginTop: "20px" }}>
           <TextField
             value={model}
@@ -93,13 +138,14 @@ export function DroneRegistry({
           />
         </Stack>
         <Stack direction={"row"} spacing={3}>
-          <FormControl sx={{ width: "50%" }}>
+          <FormControl sx={{ width: "48%" }}>
             <InputLabel>Drone Size</InputLabel>
             <Select
               label="size of the Drone"
               value={size}
               onChange={(e) => setSize(e.target.value)}
             >
+              <MenuItem value={undefined}>Unknown</MenuItem>
               <MenuItem value="small">Small</MenuItem>
               <MenuItem value="medium">Medium</MenuItem>
               <MenuItem value="large">Large</MenuItem>
@@ -145,7 +191,7 @@ export function DroneRegistry({
         <CustomButton
           text="Register"
           type="navigate"
-          size={200}
+          size="sm"
           action={FormSubmission}
         />
       </Stack>

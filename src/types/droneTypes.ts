@@ -1,9 +1,10 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export interface ButtonInterface {
+  sx?: React.CSSProperties;
   text: string;
   type: "stop" | "navigate";
-  size: number;
+  size?: string;
   action?: () => void;
   children?: ReactNode;
 }
@@ -12,10 +13,10 @@ export interface DroneInformation {
   charge: number;
   id: string;
   image: string;
-  size: "small" | "medium" | "large";
+  size: "small" | "medium" | "large" | undefined;
   model: string;
   carrying?: null | number;
-  base :[number, number]
+  base: [number, number];
 }
 export interface DeployedDroneInformation {
   information: DroneInformation;

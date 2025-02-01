@@ -11,7 +11,6 @@ import { SingleDroneManager } from "./SingleDroneManager";
 import { DeployedDroneList } from "./DeployedDroneList";
 import { PaginationComponent } from "./Pagination";
 import { DroneRegistry } from "../droneFleet/DroneRegistery";
-
 export function Management() {
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [displayDroneRegistery, setDisplayDroneRegistery] = useState(false);
@@ -46,6 +45,7 @@ export function Management() {
   function CloseButtonclicked() {
     dispatch(setFocusedDrone(undefined));
   }
+
   function pageChanged(_: React.ChangeEvent<unknown>, page: number) {
     setCurrentPageNumber(page);
   }
@@ -69,27 +69,28 @@ export function Management() {
     >
       <Stack
         direction={"row"}
-        spacing={13}
+        spacing={2}
         justifyContent="space-between"
         alignItems="center"
         sx={{ width: "100%" }}
       >
         <DroneFleetManagement />
-
         {currentDisplayedDrone ? (
           <CloseButton onClose={CloseButtonclicked} />
         ) : (
           <>
             <CustomButton
-              text="Register Drone"
-              type="navigate"
-              size={300}
+              text={
+                !displayDroneRegistery ? "Register Drone" : "Close Registery"
+              }
+              type={!displayDroneRegistery ? "navigate" : "stop"}
               action={registeryDisplaying}
             />
             <Search />
           </>
         )}
       </Stack>
+
       {currentDisplayedDrone ? (
         <SingleDroneManager
           currentDisplayedDrone={currentDisplayedDrone}

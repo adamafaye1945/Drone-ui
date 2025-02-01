@@ -54,7 +54,6 @@ export default function DroneFleetManagement() {
       <CustomButton
         text="Open Fleet"
         type="navigate"
-        size={200}
         action={handleClickOpen}
       />
       <Dialog
