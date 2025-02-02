@@ -29,9 +29,9 @@ export function SingleDroneManager({
         <Grid2>
           <CustomButton
             text="Ground Drone"
-            size={200}
             type="navigate"
             action={droneGrounding}
+            size={200}
           />
         </Grid2>
       </Grid2>

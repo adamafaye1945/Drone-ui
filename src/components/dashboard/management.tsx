@@ -11,11 +11,13 @@ import { SingleDroneManager } from "./SingleDroneManager";
 import { DeployedDroneList } from "./DeployedDroneList";
 import { PaginationComponent } from "./Pagination";
 import { DroneRegistry } from "../droneFleet/DroneRegistery";
+import { Feedback } from "../stuffLIKEALERT/alert";
 export function Management() {
+  const [feedbackopen, setFeedBackOpen] = useState(false);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   const [displayDroneRegistery, setDisplayDroneRegistery] = useState(false);
   const currentDisplayedDrone = useSelector(
-    (state: RootState) => state.drone.focusedDrone
+    (state: RootState) => state.drone?.focusedDrone
   );
   const dispatch = useDispatch();
   const drones = useSelector(selectFilteredDrones);
@@ -33,6 +35,12 @@ export function Management() {
   }, [drones, currentDisplayedDrone, dispatch]);
 
   // calculating number of element appearing in a page
+  function handlefeedbackOpening() {
+    setFeedBackOpen(true);
+  }
+  function handlefeedbackClose() {
+    setFeedBackOpen(false);
+  }
   function registeryDisplaying() {
     setDisplayDroneRegistery(!displayDroneRegistery);
   }
@@ -97,9 +105,19 @@ export function Management() {
           droneGrounding={droneGrounding}
         />
       ) : displayDroneRegistery ? (
-        <DroneRegistry setDisplayDroneRegistery={setDisplayDroneRegistery} />
+        <DroneRegistry
+          handleFeedbackOpen={handlefeedbackOpening}
+          setDisplayDroneRegistery={setDisplayDroneRegistery}
+        />
       ) : (
-        <DeployedDroneList paginatedInfos={paginatedInfos} />
+        <>
+          <DeployedDroneList paginatedInfos={paginatedInfos} />
+          <Feedback
+            handleClose={handlefeedbackClose}
+            message="Drone has been successfully added to fleet!"
+            open={feedbackopen}
+          />
+        </>
       )}
       {!currentDisplayedDrone && drones && (
         <PaginationComponent

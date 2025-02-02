@@ -1,6 +1,5 @@
 import { ThemeProvider } from "@emotion/react";
 import {
-  Alert,
   Button,
   Checkbox,
   FormControl,
@@ -42,9 +41,11 @@ const VisuallyHiddenInput = styled("input")({
 type sizeType = "small" | "medium" | "large" | undefined;
 interface DroneRegisteryProps {
   setDisplayDroneRegistery: (display: boolean) => void;
+  handleFeedbackOpen: () => void;
 }
 export function DroneRegistry({
   setDisplayDroneRegistery,
+  handleFeedbackOpen,
 }: DroneRegisteryProps) {
   const dispatch = useDispatch();
   const [modelinputError, setModelInputError] = useState(false);
@@ -99,6 +100,7 @@ export function DroneRegistry({
     };
     await dispatch(addDrone(groundedDroneObj));
     setDisplayDroneRegistery(false);
+    handleFeedbackOpen();
     return;
   }
   return (
@@ -191,7 +193,7 @@ export function DroneRegistry({
         <CustomButton
           text="Register"
           type="navigate"
-          size="sm"
+          
           action={FormSubmission}
         />
       </Stack>

@@ -8,12 +8,9 @@ export function ChargingStation() {
   return (
     <div>
       <CustomButton
-        text={
-          showStations ? "Hide Charging Stations" : "Charging Stations"
-        }
+        text={showStations ? "Hide Charging Stations" : "Charging Stations"}
         type={showStations ? "stop" : "navigate"}
         action={() => setShowStations(!showStations)}
-        size={200}
       />
 
       <Collapse in={showStations}>

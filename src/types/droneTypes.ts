@@ -4,7 +4,7 @@ export interface ButtonInterface {
   sx?: React.CSSProperties;
   text: string;
   type: "stop" | "navigate";
-  size?: string;
+  size?: number;
   action?: () => void;
   children?: ReactNode;
 }

@@ -1,4 +1,6 @@
-import { Alert, Button } from "@mui/material";
+import { Alert, Button, IconButton, Snackbar } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+
 import { useState } from "react";
 interface alertProps {
   message: string;
@@ -12,5 +14,38 @@ export function AlertMessage({ message, type, action }: alertProps) {
         {message}
       </Alert>
     </Button>
+  );
+}
+interface Feedbackprops {
+  message: string;
+  handleClose: () => void;
+  open: boolean;
+}
+export function Feedback({ message, handleClose, open }: Feedbackprops) {
+  const feedback = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
+
+  return (
+    <Snackbar
+      sx={{ backgroundColor: "#86A788" }}
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+      action={feedback}
+    >
+      <Alert severity="success" variant="filled">
+        {message}
+      </Alert>
+    </Snackbar>
   );
 }
