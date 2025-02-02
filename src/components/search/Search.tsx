@@ -1,12 +1,9 @@
 import { TextField, ThemeProvider, InputAdornment } from "@mui/material";
-import { theme } from "../task/createTask";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
 import { setSearchQuery } from "../../redux/slice/droneSlice";
+import { theme } from "../../form/theme";
 
 export function Search() {
   const dispatch = useDispatch();
@@ -27,7 +24,7 @@ export function Search() {
         id="outlined-basic"
         label="Look up for a drone"
         variant="outlined"
-        sx={{ width: "100%" }}
+        sx={{ width: "35%" }}
         InputProps={{
           startAdornment: (
             <InputAdornment style={{ color: "white" }} position="start">

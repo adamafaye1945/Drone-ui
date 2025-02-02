@@ -1,45 +1,49 @@
-import {
-  Box,
-  List,
-  ListItemButton,
-  Pagination,
-  Stack,
-  Grid2,
-} from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import DroneFleetManagement from "../droneFleet/droneFleet";
 import { useEffect, useState } from "react";
-import { Task } from "../task/task";
-import { ChargingStation } from "../DroneInfoFolder/chargingStation";
 import { CloseButton, CustomButton } from "../MyCustomButton";
-import { TaskCreation } from "../task/createTask";
-import { DroneInformationComponent } from "../DroneInfoFolder/DroneInformation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../redux/store/store";
 import { groundDrone, setFocusedDrone } from "../../redux/slice/droneSlice";
-import { DeployedDroneItem } from "./deployedDroneItem";
-import { selectFilteredDrones } from "../../redux/derivedState";
-import { Search } from "./Search";
-
+import { searchTrie, selectFilteredDrones } from "../../redux/derivedState";
+import { Search } from "../search/Search";
+import { RootState } from "../../redux/store/store";
+import { SingleDroneManager } from "./SingleDroneManager";
+import { DeployedDroneList } from "./DeployedDroneList";
+import { PaginationComponent } from "./Pagination";
+import { DroneRegistry } from "../droneFleet/DroneRegistery";
+import { Feedback } from "../stuffLIKEALERT/alert";
 export function Management() {
+  const [feedbackopen, setFeedBackOpen] = useState(false);
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
+  const [displayDroneRegistery, setDisplayDroneRegistery] = useState(false);
   const currentDisplayedDrone = useSelector(
-    (state: RootState) => state.drone.focusedDrone
+    (state: RootState) => state.drone?.focusedDrone
   );
   const dispatch = useDispatch();
-
   const drones = useSelector(selectFilteredDrones);
+  const trie = useSelector(searchTrie);
+  // insert in trie for quick search
   // make sure currentDisplayed drone reflect changes that happened in the redux state
   useEffect(() => {
-    if (currentDisplayedDrone) {
-      const updatedDrone = drones.find(
-        (drone) => drone.information.id === currentDisplayedDrone.information.id
-      );
-      if (updatedDrone) {
-        dispatch(setFocusedDrone(updatedDrone));
-      }
+    if (!drones || !currentDisplayedDrone) return;
+
+    const updatedDrone = trie.search(currentDisplayedDrone.information.model);
+
+    if (updatedDrone) {
+      dispatch(setFocusedDrone(updatedDrone[0]));
     }
-  }, [drones]);
+  }, [drones, currentDisplayedDrone, dispatch]);
+
   // calculating number of element appearing in a page
+  function handlefeedbackOpening() {
+    setFeedBackOpen(true);
+  }
+  function handlefeedbackClose() {
+    setFeedBackOpen(false);
+  }
+  function registeryDisplaying() {
+    setDisplayDroneRegistery(!displayDroneRegistery);
+  }
   function droneGrounding() {
     if (currentDisplayedDrone) {
       dispatch(groundDrone(currentDisplayedDrone));
@@ -49,6 +53,7 @@ export function Management() {
   function CloseButtonclicked() {
     dispatch(setFocusedDrone(undefined));
   }
+
   function pageChanged(_: React.ChangeEvent<unknown>, page: number) {
     setCurrentPageNumber(page);
   }
@@ -57,7 +62,7 @@ export function Management() {
     const endIndex = startIndex + itemsPerPage;
     return array.slice(startIndex, endIndex);
   }
-  const paginatedInfos = paginate(drones, currentPageNumber, 9);
+  const paginatedInfos = drones ? paginate(drones, currentPageNumber, 9) : [];
   return (
     <Box
       sx={{
@@ -72,71 +77,53 @@ export function Management() {
     >
       <Stack
         direction={"row"}
-        spacing={13}
+        spacing={2}
         justifyContent="space-between"
         alignItems="center"
         sx={{ width: "100%" }}
       >
         <DroneFleetManagement />
-
         {currentDisplayedDrone ? (
           <CloseButton onClose={CloseButtonclicked} />
         ) : (
-          <Search />
+          <>
+            <CustomButton
+              text={
+                !displayDroneRegistery ? "Register Drone" : "Close Registery"
+              }
+              type={!displayDroneRegistery ? "navigate" : "stop"}
+              action={registeryDisplaying}
+            />
+            <Search />
+          </>
         )}
       </Stack>
+
       {currentDisplayedDrone ? (
-        <Stack spacing={3}>
-          <DroneInformationComponent info={currentDisplayedDrone} />
-          <Grid2 container spacing={3} justifyContent="space-between">
-            <Grid2>
-              <Task />
-            </Grid2>
-            <Grid2>
-              <ChargingStation />
-            </Grid2>
-            <Grid2>
-              <TaskCreation />
-            </Grid2>
-            <Grid2>
-              <CustomButton
-                text="Ground Drone"
-                size={200}
-                type="navigate"
-                action={droneGrounding}
-              />
-            </Grid2>
-          </Grid2>
-        </Stack>
+        <SingleDroneManager
+          currentDisplayedDrone={currentDisplayedDrone}
+          droneGrounding={droneGrounding}
+        />
+      ) : displayDroneRegistery ? (
+        <DroneRegistry
+          handleFeedbackOpen={handlefeedbackOpening}
+          setDisplayDroneRegistery={setDisplayDroneRegistery}
+        />
       ) : (
-        <List sx={{ width: "100%" }}>
-          {paginatedInfos.map((info, index) => (
-            <ListItemButton onClick={() => dispatch(setFocusedDrone(info))}>
-              <DeployedDroneItem info={info} index={index} />
-            </ListItemButton>
-          ))}
-        </List>
+        <>
+          <DeployedDroneList paginatedInfos={paginatedInfos} />
+          <Feedback
+            handleClose={handlefeedbackClose}
+            message="Drone has been successfully added to fleet!"
+            open={feedbackopen}
+          />
+        </>
       )}
-      {!currentDisplayedDrone && (
-        <Pagination
-          onChange={pageChanged}
-          page={currentPageNumber}
-          count={Math.ceil(drones.length / 9)}
-          size="large"
-          variant="outlined"
-          sx={{
-            position: "fixed",
-            bottom: "0",
-            marginBottom: "10px",
-            "& .MuiPaginationItem-root": {
-              color: "#86A788",
-              borderColor: "#86A788",
-            },
-            "& .MuiPaginationItem-root.Mui-selected": {
-              backgroundColor: "#86A788",
-              color: "white",
-            },
-          }}
+      {!currentDisplayedDrone && drones && (
+        <PaginationComponent
+          drones={drones}
+          currentPageNumber={currentPageNumber}
+          pageChanged={pageChanged}
         />
       )}
     </Box>

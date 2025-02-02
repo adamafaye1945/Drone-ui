@@ -23,53 +23,55 @@ interface stateType {
 //   currentDisplayedDrone : DeployedDroneInformation
 
 // }
+// trie for search
+const lll: DeployedDroneInformation[] = [
+  {
+    task: null,
+    information: {
+      charge: 30,
+      id: "124",
+      image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
+      model: "seria124",
+      size: "small",
+      base: [40.71, -74],
+    },
+    position: [41.71, -74.8],
+    altitude: 120,
+    currentAction: "standby",
+  },
+  {
+    task: null,
+    information: {
+      charge: 30,
+      id: "14",
+      image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
+      model: "seria12",
+      size: "small",
+      base: [40.71, -74],
+    },
+    position: [40.71, -74.9],
+    altitude: 120,
+    currentAction: "standby",
+  },
+  {
+    task: null,
+    information: {
+      charge: 30,
+      id: "12",
+      image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
+      model: "seria10023",
+      size: "small",
+      base: [40.71, -74],
+    },
+    position: [40.71, -74.8],
+    altitude: 120,
+    currentAction: "standby",
+  },
+];
 const initialState: stateType = {
   searchQuery: "",
   focusedDrone: undefined,
-  deployed: [
-    {
-      task: null,
-      information: {
-        charge: 30,
-        id: "124",
-        image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
-        model: "seria124",
-        size: "small",
-        base: [40.71, -74],
-      },
-      position: [41.71, -74.8],
-      altitude: 120,
-      currentAction: "standby",
-    },
-    {
-      task: null,
-      information: {
-        charge: 30,
-        id: "14",
-        image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
-        model: "seria12",
-        size: "small",
-        base: [40.71, -74],
-      },
-      position: [40.71, -74.9],
-      altitude: 120,
-      currentAction: "standby",
-    },
-    {
-      task: null,
-      information: {
-        charge: 30,
-        id: "12",
-        image: "src/assets/kXUY9hyetVzhZ2scwJP7p3-1200-80.jpg",
-        model: "seria10023",
-        size: "small",
-        base: [40.71, -74],
-      },
-      position: [40.71, -74.8],
-      altitude: 120,
-      currentAction: "standby",
-    },
-  ],
+  deployed: lll,
   grounded: [
     {
       information: {
@@ -99,11 +101,12 @@ const DeployedDroneSlice = createSlice({
     ) => {
       state.focusedDrone = action.payload;
     },
-    addDrone: (state, action: PayloadAction<DeployedDroneInformation>) => {
-      state.deployed.push(action.payload);
+    addDrone: (state, { payload }: PayloadAction<GroundedDroneInformation>) => {
+      state.grounded.push(payload);
     },
     groundDrone: (state, action: PayloadAction<DeployedDroneInformation>) => {
       const { information } = action.payload;
+
       state.deployed = state.deployed.filter(
         (drone) => drone.information.id !== information.id
       );
@@ -130,16 +133,17 @@ const DeployedDroneSlice = createSlice({
           currentAction: "standby",
         }));
       state.deployed.push(...deployedDroneFromGroundTodeploy);
+
       state.grounded = state.grounded.filter(
         (drone) => !action.payload.has(drone.information.id)
       );
     },
     taskChanged: (state, action: PayloadAction<TaskChanging>) => {
       const { id, task, altitude, currentAction } = action.payload;
-
       const index = state.deployed.findIndex(
         (drone) => drone.information.id === id
       );
+
       state.deployed[index].task = task;
       state.deployed[index].altitude = altitude;
       state.deployed[index].currentAction = currentAction;
