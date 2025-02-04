@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import { GroundedDroneInformation } from "../../types/droneTypes";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
+import { backgroundColor } from "../../form/theme";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 100, type: "string" },

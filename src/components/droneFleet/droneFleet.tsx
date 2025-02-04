@@ -15,6 +15,7 @@ import { useState } from "react";
 import { GridRowSelectionModel } from "@mui/x-data-grid";
 import { useDispatch } from "react-redux";
 import { deployDrones } from "../../redux/slice/droneSlice";
+import { appColor, backgroundColor } from "../../form/theme";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -62,7 +63,7 @@ export default function DroneFleetManagement() {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative" }}>
+        <AppBar sx={{ position: "relative", backgroundColor: appColor }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -75,9 +76,11 @@ export default function DroneFleetManagement() {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Drone Fleet
             </Typography>
-            <Button autoFocus color="inherit" onClick={executeFunc}>
-              Execute
-            </Button>
+            {rowSelected && rowSelected.length >= 1 && (
+              <Button autoFocus color="inherit" onClick={executeFunc}>
+                Deploy
+              </Button>
+            )}
           </Toolbar>
         </AppBar>
         <List>
