@@ -74,3 +74,5 @@ export const theme = createTheme({
     },
   },
 });
+export const appColor = "#86A788";
+export const backgroundColor = "#1e1e1e";
